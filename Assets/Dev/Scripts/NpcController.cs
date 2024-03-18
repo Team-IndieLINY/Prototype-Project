@@ -37,6 +37,14 @@ public class NpcController : MonoBehaviour
         Stemina.OnEaten += OnEaten;
     }
 
+    private void Update()
+    {
+        if (Stemina.Health <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private void OnEaten(SteminaController controller)
     {
         _feedbackController.AnimateFeedback(EFeedbackType.Food);

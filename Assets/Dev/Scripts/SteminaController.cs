@@ -4,18 +4,22 @@ using System.Collections.Generic;
 using IndieLINY.Event;
 using UnityEngine;
 
-public abstract class MaximumValueT<T> where T : struct
+[System.Serializable]
+public abstract class RangedValueT<T> where T : struct
 {
+    [SerializeField]
     private T _value;
     public T MaxValue;
+    public T MinValue;
 
-    public MaximumValueT()
+    public RangedValueT()
     {
     }
     
-    public MaximumValueT(T maxValue, T currentValue)
+    public RangedValueT(T maxValue, T minValue, T currentValue)
     {
         MaxValue = maxValue;
+        MinValue = minValue;
         Value = currentValue;
     }
 
@@ -30,18 +34,28 @@ public abstract class MaximumValueT<T> where T : struct
             {
                 _value = MaxValue;
             }
+            else if (IsLessThen(_value, MinValue))
+            {
+                _value = MinValue;
+            }
         }
     }
 
     protected abstract bool IsGreaterThen(T source, T target);
+    protected abstract bool IsLessThen(T source, T target);
 }
 
-public class MVFloat : MaximumValueT<float>
+public class RVFloat : RangedValueT<float>
 {
-    public MVFloat(float maxValue, float currentValue):base(maxValue, currentValue) {}
+    public RVFloat(float maxValue, float minValue, float currentValue):base(maxValue, minValue, currentValue) {}
     protected override bool IsGreaterThen(float source, float target)
     {
         return source > target;
+    }
+
+    protected override bool IsLessThen(float source, float target)
+    {
+        return source < target;
     }
 }
 
@@ -53,7 +67,8 @@ public class SteminaController : IBActorStemina
 
     public event Action<SteminaController> OnEaten;
 
-    private MVFloat _food;
+    [SerializeField]
+    private RVFloat _food;
 
     public bool Enabled;
     public float Food
@@ -62,7 +77,8 @@ public class SteminaController : IBActorStemina
         set => _food.Value = value;
     }
 
-    private MVFloat _health;
+    [SerializeField]
+    private RVFloat _health;
     public float Health
     {
         get => _health.Value;
@@ -79,8 +95,8 @@ public class SteminaController : IBActorStemina
         this.SteminaData = data;
         this._view = view;
 
-        _food = new MVFloat(data.MaxFood, 0f);
-        _health = new MVFloat(data.MaxHealth, 0f);
+        _food = new RVFloat(data.MaxFood, 0f, 0f);
+        _health = new RVFloat(data.MaxHealth, 0f, 0f);
 
         SetMaxStemina();
 
