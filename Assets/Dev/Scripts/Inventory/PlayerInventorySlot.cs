@@ -47,7 +47,7 @@ public class PlayerInventorySlot : MonoBehaviour
         if(Item)
         {
             _slotItemCountText.text = $"{ItemCount}\n{Item.Name}";
-            _slotItemImage.sprite = Item._icon;
+            _slotItemImage.sprite = Item.Icon;
         }
         else
         {

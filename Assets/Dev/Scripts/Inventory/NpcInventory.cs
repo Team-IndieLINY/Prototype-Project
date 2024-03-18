@@ -16,12 +16,12 @@ public class NpcInventory : Inventory
         return true;
     }
 
-    protected override void OnOnItemAdded(Item item)
+    protected override void ItemAdded(Item item)
     {
         
     }
 
-    protected override void OnOnItemRemoved(Item item)
+    protected override void ItemRemoved(Item item)
     {
     }
 }

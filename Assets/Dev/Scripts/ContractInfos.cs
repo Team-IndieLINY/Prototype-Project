@@ -3,16 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IBActorHP : IActorBehaviour
-{
-    public float HP { get; }
-    public float MaxHP { get; }
-    public void Heal(float healValue);
-}
 
 public interface IBActorStemina : IActorBehaviour
 {
-    public void Eat();
+    public ActorSteminaData SteminaData { get; }
+    public float Food { get; set; }
+    public float Health { get; set; }
+    public void Eat(Item item);
 }
 
 public interface IBObjectFieldItem : IObjectBehaviour

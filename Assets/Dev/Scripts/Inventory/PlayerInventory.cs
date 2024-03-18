@@ -21,6 +21,13 @@ public class PlayerInventoryCursor
         return _slots[_cursor].Item;
     }
 
+    public bool TryGetItem(out Item item)
+    {
+        item = GetItem();
+
+        return item;
+    }
+
     public void ShiftCursor(int dir)
     {
         _cursor += dir;
@@ -102,7 +109,7 @@ public class PlayerInventory : Inventory
         return slot == true;
     }
 
-    protected override void OnOnItemAdded(Item item)
+    protected override void ItemAdded(Item item)
     {
         var slot = GetSlotAny(item);
         Debug.Assert(slot);
@@ -112,13 +119,14 @@ public class PlayerInventory : Inventory
         slot.UpdateSlot();
     }
 
-    protected override void OnOnItemRemoved(Item item)
+    protected override void ItemRemoved(Item item)
     {
         var slot = GetSlotFromItem(item);
 
         if (slot)
         {
             slot.ItemCount -= 1;
+            slot.UpdateSlot();
         }
 
     }

@@ -15,7 +15,7 @@ public abstract class Inventory : MonoBehaviour
         
         if (CanAddItem(item) == false) return false;
         
-        OnOnItemAdded(item);
+        ItemAdded(item);
         OnItemAdded?.Invoke(item);
 
         return true;
@@ -25,7 +25,7 @@ public abstract class Inventory : MonoBehaviour
     {
         Debug.Assert(item == true);
         
-        OnOnItemRemoved(item);
+        ItemRemoved(item);
         OnItemRemoved?.Invoke(item);
     }
 
@@ -33,7 +33,7 @@ public abstract class Inventory : MonoBehaviour
     
     protected abstract bool CanAddItem(Item item);
 
-    protected abstract void OnOnItemAdded(Item item);
+    protected abstract void ItemAdded(Item item);
 
-    protected abstract void OnOnItemRemoved(Item item);
+    protected abstract void ItemRemoved(Item item);
 }

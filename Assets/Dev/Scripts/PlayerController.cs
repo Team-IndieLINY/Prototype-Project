@@ -5,18 +5,24 @@ using IndieLINY.Event;
 using UnityEngine;
 using XRProject.Utils.Log;
 
-public class PlayerController : MonoBehaviour, IBActorHP
+public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private ActorSteminaData _steminaData;
+    [SerializeField] private SteminaView _steminaView;
+    
     public float MovementSpeed;
     public bool UsePresetRigidBodyOptions;
     public float ItemCollectRadius;
 
     public Rigidbody2D Rigid2D;
     public PlayerInventory Inventory;
+    public SteminaController Stemina { get; private set; }
 
     private void Awake()
     {
         Interaction = GetComponentInChildren<CollisionInteraction>();
+        Stemina = new SteminaController(Interaction, _steminaData, _steminaView);
+        
         if (Interaction == false)
         {
             XLog.LogError("PlayerController에서 CollisionInteraction를 찾을 수 없습니다.", "default");
@@ -31,7 +37,7 @@ public class PlayerController : MonoBehaviour, IBActorHP
         if(Interaction.ContractInfo is ActorContractInfo info)
         {
             info
-                .AddBehaivour<IBActorHP>(this)
+                .AddBehaivour<IBActorStemina>(Stemina)
                 ;
         }
     }
@@ -48,6 +54,8 @@ public class PlayerController : MonoBehaviour, IBActorHP
             Rigid2D.interpolation = RigidbodyInterpolation2D.Interpolate;
             Rigid2D.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         }
+
+        StartCoroutine(Stemina.UpdatePerSec());
     }
 
     private void Update()
@@ -55,8 +63,19 @@ public class PlayerController : MonoBehaviour, IBActorHP
         Move();
 
         WorldInteraction();
+        SelfInteraction();
     }
 
+    private void SelfInteraction()
+    {
+        if (Input.GetKeyDown(KeyCode.E) == false) return;
+        
+        if(Inventory.Cursor.TryGetItem(out var item))
+        {
+            Inventory.RemoveItem(item);
+            Stemina.Eat(item);
+        }
+    }
 
     private void WorldInteraction()
     {
@@ -94,11 +113,11 @@ public class PlayerController : MonoBehaviour, IBActorHP
 
     private void DoInteractNPC(IBActorStemina stemina)
     {
-        //TODO: 여기에 npc에게 음식을 먹이는 코드 작성
-        //TODO: UI, 스테미나 관련 로직 등
-        
-        //위의 todo 구현 전 임시 코드
-        stemina.Eat();
+        if (Inventory.Cursor.TryGetItem(out var item))
+        {
+            stemina.Eat(item);
+            Inventory.RemoveItem(item);
+        }
     }
     
     private void Move()
