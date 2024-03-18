@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class PlayerInventorySlot : MonoBehaviour
 {
+    [SerializeField] private Image _backgroundImage;
     [SerializeField] private Image _slotItemImage;
     [SerializeField] private TMP_Text _slotItemCountText;
 
@@ -26,6 +27,14 @@ public class PlayerInventorySlot : MonoBehaviour
         if (item == Item) return true;
 
         return false;
+    }
+
+    public void Highlight(bool enable)
+    {
+        if(enable)
+            _backgroundImage.color = Color.red;
+        else
+            _backgroundImage.color = Color.white;
     }
     
     public void UpdateSlot()
