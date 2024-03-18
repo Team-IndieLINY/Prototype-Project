@@ -17,3 +17,17 @@ jobs:
         with:
           name: Build
           path:  F:\__INDIELINY__\CI\__BUILD_OUTPUT__
+
+  notify:
+    name: discord notification
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Discord notification
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          
+        uses: Ilshidur/action-discord@master
+        with:
+          args: "프로토타입 빌드 완료!. \n빌드 링크: https://github.com/{{GITHUB_REPOSITORY}}/actions/runs/{{GITHUB_RUN_ID}}"
