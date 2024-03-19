@@ -5,22 +5,6 @@ using System.Linq;
 using UnityEngine;
 
 
-[Serializable]
-public enum EStatCode : int
-{
-    Health = 1,
-    Stemina,
-    Food,
-    Thirsty,
-    Temperature,
-    MovementSpeed,
-    SpeedOfUsingItem,
-    
-    First = Health,
-    Last = SpeedOfUsingItem
-}
-
-
 public static class SteminaUtils
 {
     public static bool Compare(Stat_Entity entity, EStatCode code)
@@ -38,7 +22,29 @@ public static class SteminaUtils
         
         var food = properties.GetRef<int>(EStatCode.Food);
         food.Value -= 1;
+
+        if (food.Value <= 0)
+        {
+            var health = properties.GetRef<int>(EStatCode.Health);
+            health.Value -= 1;
+        }
+    }
+
+    public static void UpdateValidation(SteminaController controller, StatTable table)
+    {
+        if (controller.Enabled == false) return;
+        var properties = controller.Properties;
         
+        if(properties.DoCondition(EStatCode.Food, x=>x < 0, out DataValueT<int> foodValue1))
+        {
+            foodValue1.Value = 0;
+        }
+
+        var maxFoodValue = table.Player_Stat_Master.First(y => y.PlayerStatCode == (int)EStatCode.Food).StatBasicValue;
+        if(properties.DoCondition(EStatCode.Food, x=>x > maxFoodValue, out DataValueT<int> foodValue2))
+        {
+            foodValue2.Value = maxFoodValue;
+        }
     }
 
     public static void UpdateView(SteminaController controller)

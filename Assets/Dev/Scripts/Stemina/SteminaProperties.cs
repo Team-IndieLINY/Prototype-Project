@@ -1,22 +1,21 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class BaseValue {}
+public class DataValueT<T> : BaseValue
+    where T : struct
+{
+    public T Value;
 
-
+    public DataValueT()
+    {
+        Value = default;
+    }
+}
 public class SteminaProperties
 {
-    public class BaseValue {}
-    public class ValueT<T> : BaseValue
-        where T : struct
-    {
-        public T Value;
-
-        public ValueT()
-        {
-            Value = default;
-        }
-    }
     
     private BaseValue[] _array;
 
@@ -32,7 +31,7 @@ public class SteminaProperties
 
         if (_array[index] == null)
         {
-            _array[index] = new ValueT<T>();
+            _array[index] = new DataValueT<T>();
         }
     }
 
@@ -49,7 +48,7 @@ public class SteminaProperties
         CheckValid(code, out int index);
         TryAlloc<T>(code);
         
-        if (_array[index] is ValueT<T> v)
+        if (_array[index] is DataValueT<T> v)
         {
             return v.Value;
         }
@@ -63,7 +62,7 @@ public class SteminaProperties
         TryAlloc<T>(code);
         CheckValid(code, out int index);
         
-        if (_array[index] is ValueT<T> v)
+        if (_array[index] is DataValueT<T> v)
         {
             v.Value = value;
         }
@@ -73,17 +72,56 @@ public class SteminaProperties
         }
     }
 
-    public ValueT<T> GetRef<T>(EStatCode code) where T : struct
+    public DataValueT<T> GetRef<T>(EStatCode code) where T : struct
     {
         TryAlloc<T>(code);
         CheckValid(code, out int index);
 
-        if (_array[index] is ValueT<T> v)
+        if (_array[index] is DataValueT<T> v)
         {
             return v;
         }
         
         Debug.Assert(false, "EStateCode와 매칭되지 않는 T");
         return default;
+    }
+
+    public bool DoCondition<T>(EStatCode code, Func<T, bool> callback, out DataValueT<T> refDataValue) where T : struct
+    {
+        TryAlloc<T>(code);
+        CheckValid(code, out int index);
+
+        
+        refDataValue = null;
+        if (_array[index] is DataValueT<T> v)
+        {
+            var rtv = callback?.Invoke(v.Value);
+            if (rtv.HasValue == false || rtv.Value == false)
+            {
+                return false;
+            }
+
+            refDataValue = v;
+            return true;
+        }
+        return false;
+    }
+
+    public void DoAction<T>(EStatCode code, Func<T, T> callback) where T : struct
+    {
+        TryAlloc<T>(code);
+        CheckValid(code, out int index);
+
+        if (_array[index] is DataValueT<T> v)
+        {
+            var rtv = callback?.Invoke(v.Value);
+            if (rtv.HasValue == false)
+            {
+                return;
+            }
+
+            v.Value = rtv.Value;
+
+        }
     }
 }

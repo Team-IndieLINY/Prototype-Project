@@ -7,7 +7,6 @@ using XRProject.Utils.Log;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private ActorSteminaData _steminaData;
     [SerializeField] private SteminaView _steminaView;
     
     public float MovementSpeed;

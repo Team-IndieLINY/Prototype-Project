@@ -7,7 +7,6 @@ using UnityEngine;
 public class NpcController : MonoBehaviour
 {
     [SerializeField] private NpcInventory _inventory;
-    [SerializeField] private ActorSteminaData _steminaData;
     [SerializeField] private SteminaView _steminaView;
     [SerializeField] private FeedbackController _feedbackController;
 

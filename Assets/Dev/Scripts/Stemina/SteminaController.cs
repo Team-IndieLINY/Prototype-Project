@@ -30,6 +30,7 @@ public class SteminaController : IBActorStemina
         Enabled = true;
 
         SteminaUtils.SetBasicValue(this, _table);
+        SteminaUtils.UpdateValidation(this, _table);
         SteminaUtils.UpdateView(this);
     }
 
@@ -39,6 +40,8 @@ public class SteminaController : IBActorStemina
         while (true)
         {
             SteminaUtils.UpdateStemina(this);
+            SteminaUtils.UpdateValidation(this, _table);
+            
             SteminaUtils.UpdateView(this);
             
             yield return wait;
@@ -47,6 +50,10 @@ public class SteminaController : IBActorStemina
 
     public void Eat(Item item)
     {
+        Properties.DoAction<int>(EStatCode.Food, x => x + item.FillFood);
+        Properties.DoAction<int>(EStatCode.Health, x => x + item.FillHealth);
+
+        SteminaUtils.UpdateValidation(this, _table);
         SteminaUtils.UpdateView(this);
 
         OnEaten?.Invoke(this);

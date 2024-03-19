@@ -2,6 +2,23 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+
+[Serializable]
+public enum EStatCode : int
+{
+	Health = 1,
+	Stemina,
+	Food,
+	Thirsty,
+	Temperature,
+	MovementSpeed,
+	SpeedOfUsingItem,
+    
+	First = Health,
+	Last = SpeedOfUsingItem
+}
+
 [ExcelAsset]
 public class StatTable : ScriptableObject
 {

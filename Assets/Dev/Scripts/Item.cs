@@ -11,11 +11,11 @@ public class Item : ScriptableObject
     [SerializeField] private string _name;
     [SerializeField]private Sprite _icon;
 
-    [SerializeField]private float _fillFood; 
-    [SerializeField]private float _fillHealth;
+    [SerializeField]private int _fillFood; 
+    [SerializeField]private int _fillHealth;
 
-    public float FillFood => _fillFood;
-    public float FillHealth => _fillHealth;
+    public int FillFood => _fillFood;
+    public int FillHealth => _fillHealth;
 
     public string Name => _name;
     public Sprite Icon => _icon;
