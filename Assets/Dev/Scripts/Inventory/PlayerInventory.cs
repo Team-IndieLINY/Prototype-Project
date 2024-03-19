@@ -58,7 +58,6 @@ public class PlayerInventory : Inventory
 {
     
     private List<PlayerInventorySlot> _slots;
-    private int CurrentCursorIndex = 0;
     public PlayerInventoryCursor Cursor { get; private set; }
 
     private void Awake()

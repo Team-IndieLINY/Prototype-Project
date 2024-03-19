@@ -6,9 +6,7 @@ using UnityEngine;
 
 public interface IBActorStemina : IActorBehaviour
 {
-    public ActorSteminaData SteminaData { get; }
-    public float Food { get; set; }
-    public float Health { get; set; }
+    public SteminaProperties Properties { get; }
     public void Eat(Item item);
 }
 

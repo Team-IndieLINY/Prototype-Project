@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         Interaction = GetComponentInChildren<CollisionInteraction>();
-        Stemina = new SteminaController(Interaction, _steminaData, _steminaView);
+        Stemina = new SteminaController(Interaction, _steminaView);
         
         if (Interaction == false)
         {

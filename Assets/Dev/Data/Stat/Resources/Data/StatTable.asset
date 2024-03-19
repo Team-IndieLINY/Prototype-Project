@@ -1,0 +1,220 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 8
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e19b76d067476047a48cce7c69e0fca, type: 3}
+  m_Name: StatTable
+  m_EditorClassIdentifier: 
+  Player_Stat_Master:
+  - Player_Stat_Code: 1
+    Player_Stat_Name: "\uCCB4\uB825"
+    Stat_Type: 1
+    Stat_Basic_Value: 100
+    Change_Type: 1
+    Change_Value: 2
+    Change_Goal_Type: 1
+    Change_Reset_Type: 1
+    Change_Reset_Value: 0
+    Change_Delay_Type: 1
+    Change_Delay_Value: 50
+    Change_Plus_Delay_Type: 0
+    Change_Plus_Delay_Value: 0
+    Change_Repeat_Value: 70
+    Condition_Limit_Value: 0
+    Condition_Value: 101
+  - Player_Stat_Code: 2
+    Player_Stat_Name: "\uC2A4\uD14C\uBBF8\uB098"
+    Stat_Type: 1
+    Stat_Basic_Value: 100
+    Change_Type: 1
+    Change_Value: 10
+    Change_Goal_Type: 1
+    Change_Reset_Type: 2
+    Change_Reset_Value: 0
+    Change_Delay_Type: 1
+    Change_Delay_Value: 25
+    Change_Plus_Delay_Type: 1
+    Change_Plus_Delay_Value: 15
+    Change_Repeat_Value: 1
+    Condition_Limit_Value: 0
+    Condition_Value: 0
+  - Player_Stat_Code: 3
+    Player_Stat_Name: "\uC601\uC591"
+    Stat_Type: 1
+    Stat_Basic_Value: 100
+    Change_Type: 3
+    Change_Value: 2
+    Change_Goal_Type: 1
+    Change_Reset_Type: 1
+    Change_Reset_Value: 102
+    Change_Delay_Type: 1
+    Change_Delay_Value: 75
+    Change_Plus_Delay_Type: 0
+    Change_Plus_Delay_Value: 0
+    Change_Repeat_Value: 120
+    Condition_Limit_Value: 0
+    Condition_Value: 102
+  - Player_Stat_Code: 4
+    Player_Stat_Name: "\uC218\uBD84"
+    Stat_Type: 1
+    Stat_Basic_Value: 100
+    Change_Type: 3
+    Change_Value: 3
+    Change_Goal_Type: 1
+    Change_Reset_Type: 1
+    Change_Reset_Value: 103
+    Change_Delay_Type: 1
+    Change_Delay_Value: 60
+    Change_Plus_Delay_Type: 0
+    Change_Plus_Delay_Value: 0
+    Change_Repeat_Value: 100
+    Condition_Limit_Value: 0
+    Condition_Value: 103
+  - Player_Stat_Code: 5
+    Player_Stat_Name: "\uCCB4\uC628"
+    Stat_Type: 1
+    Stat_Basic_Value: 100
+    Change_Type: 3
+    Change_Value: 2
+    Change_Goal_Type: 2
+    Change_Reset_Type: 0
+    Change_Reset_Value: 0
+    Change_Delay_Type: 1
+    Change_Delay_Value: 0
+    Change_Plus_Delay_Type: 0
+    Change_Plus_Delay_Value: 0
+    Change_Repeat_Value: 0
+    Condition_Limit_Value: 0
+    Condition_Value: 104
+  - Player_Stat_Code: 6
+    Player_Stat_Name: "\uC774\uB3D9\uC18D\uB3C4"
+    Stat_Type: 2
+    Stat_Basic_Value: 50
+    Change_Type: 0
+    Change_Value: 0
+    Change_Goal_Type: 0
+    Change_Reset_Type: 0
+    Change_Reset_Value: 0
+    Change_Delay_Type: 0
+    Change_Delay_Value: 0
+    Change_Plus_Delay_Type: 0
+    Change_Plus_Delay_Value: 0
+    Change_Repeat_Value: 0
+    Condition_Limit_Value: 0
+    Condition_Value: 0
+  - Player_Stat_Code: 7
+    Player_Stat_Name: "\uC544\uC774\uD15C\uC0AC\uC6A9\uC18D\uB3C4"
+    Stat_Type: 2
+    Stat_Basic_Value: 50
+    Change_Type: 0
+    Change_Value: 0
+    Change_Goal_Type: 0
+    Change_Reset_Type: 0
+    Change_Reset_Value: 0
+    Change_Delay_Type: 0
+    Change_Delay_Value: 0
+    Change_Plus_Delay_Type: 0
+    Change_Plus_Delay_Value: 0
+    Change_Repeat_Value: 0
+    Condition_Limit_Value: 0
+    Condition_Value: 0
+  Condition_Master:
+  - Condition_Code: 101
+    Condition_Name: "\uC0AC\uB9DD"
+    Buff_Stat_Type: 1
+    Change_Type: 4
+    Change_Value: 999
+    Buff_Overlap_Type: 1
+    Change_Goal_Type_1: 0
+    Change_Goal_Value_1: 0
+    Change_Goal_Type_2: 0
+    Change_Goal_Value_2: 0
+    Change_Delay_Type: 1
+    Change_Delay_Value: 50
+    Change_Repeat_Value: 30
+    Condition_Limit_Value: 0
+    Condition_Value: 0
+  - Condition_Code: 102
+    Condition_Name: "\uBC30\uACE0\uD514"
+    Buff_Stat_Type: 1
+    Change_Type: 3
+    Change_Value: 1
+    Buff_Overlap_Type: 0
+    Change_Goal_Type_1: 1
+    Change_Goal_Value_1: 0
+    Change_Goal_Type_2: 3
+    Change_Goal_Value_2: 102
+    Change_Delay_Type: 1
+    Change_Delay_Value: 50
+    Change_Repeat_Value: 30
+    Condition_Limit_Value: 0
+    Condition_Value: 101
+  - Condition_Code: 103
+    Condition_Name: "\uBAA9\uB9C8\uB984"
+    Buff_Stat_Type: 1
+    Change_Type: 3
+    Change_Value: 1
+    Buff_Overlap_Type: 0
+    Change_Goal_Type_1: 1
+    Change_Goal_Value_1: 0
+    Change_Goal_Type_2: 3
+    Change_Goal_Value_2: 103
+    Change_Delay_Type: 1
+    Change_Delay_Value: 50
+    Change_Repeat_Value: 30
+    Condition_Limit_Value: 0
+    Condition_Value: 101
+  - Condition_Code: 104
+    Condition_Name: "\uC800\uCCB4\uC628\uC99D"
+    Buff_Stat_Type: 1
+    Change_Type: 3
+    Change_Value: 1
+    Buff_Overlap_Type: 0
+    Change_Goal_Type_1: 1
+    Change_Goal_Value_1: 0
+    Change_Goal_Type_2: 2
+    Change_Goal_Value_2: 1001
+    Change_Delay_Type: 1
+    Change_Delay_Value: 50
+    Change_Repeat_Value: 30
+    Condition_Limit_Value: 0
+    Condition_Value: 101
+  Item_Master:
+  - Item_Group_Code: 101
+    Item_Group_Name: "\uC7AC\uB8CC"
+    Item_Code: 1
+    Item_Name: "\uB098\uBB34"
+    Item_Main_Type: 1
+    Item_Sub_Type: 0
+    Item_Value: 0
+    Buff_Stat_Type: 0
+  - Item_Group_Code: 102
+    Item_Group_Name: "\uC74C\uC2DD"
+    Item_Code: 2
+    Item_Name: "\uC5D0\uB108\uC9C0\uBC14"
+    Item_Main_Type: 2
+    Item_Sub_Type: 1
+    Item_Value: 25
+    Buff_Stat_Type: 3
+  - Item_Group_Code: 103
+    Item_Group_Name: "\uC74C\uB8CC"
+    Item_Code: 3
+    Item_Name: "\uCF5C\uB77C"
+    Item_Main_Type: 3
+    Item_Sub_Type: 1
+    Item_Value: 30
+    Buff_Stat_Type: 4
+  Build_Master:
+  - Build_Group_Code: 1001
+    Build_Group_Name: "\uC628\uB3C4\uC720\uC9C0"
+    Build_Name: "\uBAA8\uB2E5\uBD88"
+    Build_Main_Type: 1
+    Item_Need_Type: 1
+    Item_Need_Value: 3

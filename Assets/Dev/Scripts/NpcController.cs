@@ -18,7 +18,7 @@ public class NpcController : MonoBehaviour
 
     private void Awake()
     {
-        Stemina = new SteminaController(Interaction, _steminaData, _steminaView);
+        Stemina = new SteminaController(Interaction, _steminaView);
         
         Interaction.SetContractInfo(ActorContractInfo.Create(
             transform,
@@ -39,7 +39,7 @@ public class NpcController : MonoBehaviour
 
     private void Update()
     {
-        if (Stemina.Health <= 0)
+        if (Stemina.Properties.GetValue<int>(EStatCode.Health) <= 0)
         {
             Destroy(gameObject);
         }
