@@ -15,18 +15,35 @@ public static class SteminaUtils
     }
 
 
-    public static void UpdateStemina(SteminaController controller)
+    public static void UpdateStemina(SteminaController controller, StatTable table)
     {
         if (controller.Enabled == false) return;
         var properties = controller.Properties;
-        
-        var food = properties.GetRef<int>(EStatCode.Food);
-        food.Value -= 1;
 
-        if (food.Value <= 0)
+        foreach (var fields in properties.GetRefAll())
         {
-            var health = properties.GetRef<int>(EStatCode.Health);
-            health.Value -= 1;
+            if (fields is StatDataValue statValue)
+            {
+                StatUpdate(statValue, controller, table);
+            }
+        }
+        
+        if (properties
+                .DoCondition<int>(EStatCode.Food, x=>x < 0, out _) ||
+            properties
+                .DoCondition<int>(EStatCode.Thirsty, x=>x<0, out _))
+        {
+            controller.Properties.GetRef<int>(EStatCode.Health).Value -= 1;
+        }
+    }
+
+    private static void StatUpdate(StatDataValue statValue, SteminaController controller, StatTable table)
+    {
+        if (statValue.StatCode is
+            EStatCode.Food or
+            EStatCode.Thirsty)
+        {
+            statValue.Value -= 1;
         }
     }
 
@@ -45,6 +62,19 @@ public static class SteminaUtils
         {
             foodValue2.Value = maxFoodValue;
         }
+        
+        
+        
+        if(properties.DoCondition(EStatCode.Thirsty, x=>x < 0, out DataValueT<int> thirstyValue1))
+        {
+            thirstyValue1.Value = 0;
+        }
+
+        var maxThirstyValue = table.Player_Stat_Master.First(y => y.PlayerStatCode == (int)EStatCode.Thirsty).StatBasicValue;
+        if(properties.DoCondition(EStatCode.Food, x=>x > maxFoodValue, out DataValueT<int> thirstyValue2))
+        {
+            thirstyValue2.Value = maxThirstyValue;
+        }
     }
 
     public static void UpdateView(SteminaController controller)
@@ -53,6 +83,7 @@ public static class SteminaUtils
 
         view.Food = controller.Properties.GetValue<int>(EStatCode.Food);
         view.Health = controller.Properties.GetValue<int>(EStatCode.Health);
+        view.Thirsty = controller.Properties.GetValue<int>(EStatCode.Thirsty);
         
         view.UpdateView();
     }

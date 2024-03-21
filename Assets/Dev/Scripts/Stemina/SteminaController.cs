@@ -39,7 +39,7 @@ public class SteminaController : IBActorStemina
         var wait = new WaitForSeconds(1f);
         while (true)
         {
-            SteminaUtils.UpdateStemina(this);
+            SteminaUtils.UpdateStemina(this, _table);
             SteminaUtils.UpdateValidation(this, _table);
             
             SteminaUtils.UpdateView(this);

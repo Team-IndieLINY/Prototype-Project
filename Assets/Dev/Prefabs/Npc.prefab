@@ -104,7 +104,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inventory: {fileID: 1174690048025345815}
-  _steminaData: {fileID: 11400000, guid: b876ed507b7f40d45ae293de255cfc78, type: 2}
   _steminaView: {fileID: 7476927043449757360}
   _feedbackController: {fileID: 2764833333608397453}
   _interaction: {fileID: 453974224165421503}
@@ -206,6 +205,10 @@ PrefabInstance:
       propertyPath: m_isOrthographic
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5425993555858310428, guid: f64f4bd0b37745649b27a53a95f06d60, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5633917088225671069, guid: f64f4bd0b37745649b27a53a95f06d60, type: 3}
       propertyPath: m_Name
       value: Stemina
@@ -276,7 +279,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7325253671000706727, guid: f64f4bd0b37745649b27a53a95f06d60, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.23
+      value: 2.38
       objectReference: {fileID: 0}
     - target: {fileID: 7325253671000706727, guid: f64f4bd0b37745649b27a53a95f06d60, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

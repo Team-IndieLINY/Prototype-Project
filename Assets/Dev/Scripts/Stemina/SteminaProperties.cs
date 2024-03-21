@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BaseValue {}
@@ -14,6 +15,16 @@ public class DataValueT<T> : BaseValue
         Value = default;
     }
 }
+
+public class StatDataValue : DataValueT<int>
+{
+    public EStatCode StatCode { get; private set; }
+    public StatDataValue(EStatCode code)
+    {
+        this.StatCode = code;
+    }
+}
+
 public class SteminaProperties
 {
     
@@ -22,6 +33,11 @@ public class SteminaProperties
     public SteminaProperties()
     {
         _array = new BaseValue[(int)EStatCode.Last];
+
+        for (int i = (int)EStatCode.First; i < (int)EStatCode.Last; i++)
+        {
+            _array[i] = new StatDataValue((EStatCode)i);
+        }
     }
 
     private void TryAlloc<T>(EStatCode code)
@@ -90,7 +106,6 @@ public class SteminaProperties
     {
         TryAlloc<T>(code);
         CheckValid(code, out int index);
-
         
         refDataValue = null;
         if (_array[index] is DataValueT<T> v)
@@ -124,4 +139,7 @@ public class SteminaProperties
 
         }
     }
+
+    public List<BaseValue> GetRefAll()
+        => _array.ToList();
 }

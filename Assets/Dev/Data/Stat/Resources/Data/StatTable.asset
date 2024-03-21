@@ -16,7 +16,7 @@ MonoBehaviour:
   - Player_Stat_Code: 1
     Player_Stat_Name: "\uCCB4\uB825"
     Stat_Type: 1
-    Stat_Basic_Value: 100
+    Stat_Basic_Value: 10
     Change_Type: 1
     Change_Value: 2
     Change_Goal_Type: 1
@@ -64,7 +64,7 @@ MonoBehaviour:
   - Player_Stat_Code: 4
     Player_Stat_Name: "\uC218\uBD84"
     Stat_Type: 1
-    Stat_Basic_Value: 100
+    Stat_Basic_Value: 5
     Change_Type: 3
     Change_Value: 3
     Change_Goal_Type: 1
