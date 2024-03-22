@@ -115,7 +115,10 @@ public static class SteminaUtils
         view.Food = controller.Properties.GetValue<int>(EStatCode.Food);
         view.Health = controller.Properties.GetValue<int>(EStatCode.Health);
         view.Thirsty = controller.Properties.GetValue<int>(EStatCode.Thirsty);
-        view.Temperature = controller.Properties.GetValue<int>(EStatCode.Temperature);
+
+        view.MaxFood = controller.SteminaData.MaxFood;
+        view.MaxHealth = controller.SteminaData.MaxHealth;
+        view.MaxThirsty = controller.SteminaData.MaxThristy;
         
         view.UpdateView();
     }
