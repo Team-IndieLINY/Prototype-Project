@@ -218,8 +218,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d45c30a973890f846a464932c5326198, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _steminaData: {fileID: 11400000, guid: 0bbe96a1a4684e84b991fdf73d95e1ae, type: 2}
   _steminaView: {fileID: 3589351826134582260}
+  _steminaData: {fileID: 11400000, guid: 43b9e01bda02ac148803fb77011ecbac, type: 2}
   MovementSpeed: 5
   UsePresetRigidBodyOptions: 1
   ItemCollectRadius: 3
@@ -2032,7 +2032,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7325253671000706727, guid: f64f4bd0b37745649b27a53a95f06d60, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1.23
+      value: 1.95
       objectReference: {fileID: 0}
     - target: {fileID: 7325253671000706727, guid: f64f4bd0b37745649b27a53a95f06d60, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

@@ -8,6 +8,7 @@ using XRProject.Utils.Log;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private SteminaView _steminaView;
+    public ActorSteminaData _steminaData;
     
     public float MovementSpeed;
     public bool UsePresetRigidBodyOptions;
@@ -20,7 +21,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         Interaction = GetComponentInChildren<CollisionInteraction>();
-        Stemina = new SteminaController(Interaction, _steminaView);
+        Stemina = new SteminaController(Interaction, _steminaView, _steminaData);
         
         if (Interaction == false)
         {
@@ -150,5 +151,9 @@ public class PlayerController : MonoBehaviour
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, ItemCollectRadius);
+        
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, _steminaData.BeginIncreaseTemperatureRadius);
+        
     }
 }

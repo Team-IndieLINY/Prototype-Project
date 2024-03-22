@@ -106,6 +106,7 @@ MonoBehaviour:
   _inventory: {fileID: 1174690048025345815}
   _steminaView: {fileID: 7476927043449757360}
   _feedbackController: {fileID: 2764833333608397453}
+  _data: {fileID: 11400000, guid: aa22d875be768ba4c98142ca9e3271b7, type: 2}
   _interaction: {fileID: 453974224165421503}
 --- !u!114 &1174690048025345815
 MonoBehaviour:

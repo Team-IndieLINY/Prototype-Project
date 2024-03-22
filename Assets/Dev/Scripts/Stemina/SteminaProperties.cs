@@ -108,6 +108,17 @@ public class SteminaProperties
         CheckValid(code, out int index);
         
         refDataValue = null;
+        if (_array[index] is not DataValueT<T> v) return false;
+        if (callback.Invoke(v.Value) == false) return false;
+
+        refDataValue = v;
+        return true;
+    }
+    public bool DoCondition<T>(EStatCode code, Func<T, bool> callback, Action<DataValueT<T>> trueCallback) where T : struct
+    {
+        TryAlloc<T>(code);
+        CheckValid(code, out int index);
+        
         if (_array[index] is DataValueT<T> v)
         {
             var rtv = callback?.Invoke(v.Value);
@@ -116,7 +127,7 @@ public class SteminaProperties
                 return false;
             }
 
-            refDataValue = v;
+            trueCallback?.Invoke(v);
             return true;
         }
         return false;

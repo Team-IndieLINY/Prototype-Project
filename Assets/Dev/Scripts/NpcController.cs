@@ -9,6 +9,7 @@ public class NpcController : MonoBehaviour
     [SerializeField] private NpcInventory _inventory;
     [SerializeField] private SteminaView _steminaView;
     [SerializeField] private FeedbackController _feedbackController;
+    [SerializeField] private ActorSteminaData _data;
 
     [SerializeField] private CollisionInteraction _interaction;
     public CollisionInteraction Interaction => _interaction;
@@ -17,7 +18,7 @@ public class NpcController : MonoBehaviour
 
     private void Awake()
     {
-        Stemina = new SteminaController(Interaction, _steminaView);
+        Stemina = new SteminaController(Interaction, _steminaView, _data);
         
         Interaction.SetContractInfo(ActorContractInfo.Create(
             transform,
