@@ -195,12 +195,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 72e0707e9d474744d8fb33a21fce2f5f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 28086320ae42ef040b23cc9a0fa3f15b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.3333334, y: 1.3333334}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -219,10 +219,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _steminaView: {fileID: 3589351826134582260}
+  _sprites:
+  - Sprite: {fileID: 21300000, guid: 28086320ae42ef040b23cc9a0fa3f15b, type: 3}
+    Dir: {x: 0, y: -1}
+  - Sprite: {fileID: 21300000, guid: cccb1489d8bdb9640adf4ec54c7de7aa, type: 3}
+    Dir: {x: -1, y: -1}
+  - Sprite: {fileID: 21300000, guid: dd8a741c8437d0948a6a59fbddf3711c, type: 3}
+    Dir: {x: -1, y: 1}
+  - Sprite: {fileID: 21300000, guid: ff40489e90cdcbf4f9e2d5f8993d9730, type: 3}
+    Dir: {x: 1, y: -1}
+  - Sprite: {fileID: 21300000, guid: 9d0b8c64076315d449e30b081f2e9b45, type: 3}
+    Dir: {x: 1, y: 1}
+  - Sprite: {fileID: 21300000, guid: 956a101b601a981409a04eae400d94f0, type: 3}
+    Dir: {x: 0, y: 1}
+  - Sprite: {fileID: 21300000, guid: cccb1489d8bdb9640adf4ec54c7de7aa, type: 3}
+    Dir: {x: -1, y: 0}
+  - Sprite: {fileID: 21300000, guid: ff40489e90cdcbf4f9e2d5f8993d9730, type: 3}
+    Dir: {x: 1, y: 0}
   _steminaData: {fileID: 11400000, guid: 43b9e01bda02ac148803fb77011ecbac, type: 2}
-  MovementSpeed: 5
+  MovementSpeed: 2.5
   UsePresetRigidBodyOptions: 1
-  ItemCollectRadius: 3
+  ItemCollectRadius: 1.2
   Rigid2D: {fileID: 6870967738020720028}
   Inventory: {fileID: 6256294162495226352}
   _maxHp: 5
