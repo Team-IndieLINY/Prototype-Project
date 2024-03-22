@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cd4e7230c5ce294fb690ea9cfb6e72a, type: 3}
-  m_Name: TestItem2
+  m_Name: Water
   m_EditorClassIdentifier: 
-  _name: TestItem2
-  _icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  _fillFood: 30
+  _name: Water
+  _icon: {fileID: 21300000, guid: daee195fcb2b2934c91def753c5e4db6, type: 3}
+  _fillFood: 0
   _fillHealth: 10

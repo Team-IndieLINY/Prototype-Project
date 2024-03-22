@@ -27,7 +27,7 @@ RectTransform:
   m_GameObject: {fileID: 118477300637481997}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.063661024, y: 0.063661024, z: 0.063661024}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7325253671000706727}
@@ -130,7 +130,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 63.66706, y: 19.956287, z: 78.35761, w: 15.31061}
+  m_margin: {x: -713.3537, y: 19.956287, z: -793.67175, w: 15.31061}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -165,7 +165,7 @@ RectTransform:
   m_GameObject: {fileID: 5633917088225671069}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.0022104967, y: 0.0022104967, z: 0.0022104967}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5266888164912033673}
@@ -197,7 +197,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!114 &5425993555858310428
 MonoBehaviour:
