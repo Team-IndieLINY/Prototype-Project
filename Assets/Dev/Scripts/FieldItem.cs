@@ -39,8 +39,26 @@ public class FieldItem : MonoBehaviour, IBObjectFieldItem
         if (TryGetComponent(out AudioSource source))
         {
             source.Play();
+            if (TryGetComponent(out SpriteRenderer renderer))
+            {
+                renderer.enabled = false;
+            }
+            if (TryGetComponent(out Collider2D collider))
+            {
+                collider.enabled = false;
+            }
+            StartCoroutine(CoDestroyWait(source.clip.length));
         }
-        
+        else
+        {
+            Destroy(gameObject);
+        }
+
+    }
+
+    IEnumerator CoDestroyWait(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
         Destroy(gameObject);
     }
 }

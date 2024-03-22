@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using IndieLINY.Event;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using XRProject.Utils.Log;
 
 [Serializable]
@@ -72,6 +73,11 @@ public class PlayerController : MonoBehaviour
 
         WorldInteraction();
         SelfInteraction();
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("SampleScene");
+        }
     }
 
     private void SelfInteraction()
@@ -82,6 +88,11 @@ public class PlayerController : MonoBehaviour
         {
             Inventory.RemoveItem(item);
             Stemina.Eat(item);
+            
+            if (TryGetComponent(out AudioSource source))
+            {
+                source.Play();
+            }
         }
     }
 

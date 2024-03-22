@@ -52,6 +52,10 @@ public class NpcController : MonoBehaviour
 
     private void OnEaten(SteminaController controller)
     {
+        if (TryGetComponent(out AudioSource source))
+        {
+            source.Play();
+        }
         _scriptView.Show(_scriptModel.Eaten);
     }
 }
