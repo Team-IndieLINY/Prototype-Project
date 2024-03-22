@@ -55,6 +55,7 @@ public class SteminaController : IBActorStemina
     {
         Properties.DoAction<int>(EStatCode.Food, x => x + item.FillFood);
         Properties.DoAction<int>(EStatCode.Health, x => x + item.FillHealth);
+        Properties.DoAction<int>(EStatCode.Thirsty, x => x + item.FillThirsty);
 
         SteminaUtils.UpdateValidation(this, _table);
         SteminaUtils.UpdateView(this);

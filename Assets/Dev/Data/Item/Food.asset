@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Food
   _icon: {fileID: 21300000, guid: ecd02c328b1804e4b9c6d9dd1a207b75, type: 3}
-  _fillFood: 25
-  _fillHealth: 10
+  _fillFood: 30
+  _fillHealth: 25
+  _fillThirsty: 0

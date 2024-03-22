@@ -79,8 +79,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 85f86074890200749a492d0b893c7ba2, type: 3}
+  m_SortingOrder: 1
+  m_Sprite: {fileID: 21300000, guid: 4fa94ff2c5f110e41b4d26c55223ff7f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -303,6 +303,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4807971740839353763, guid: f64f4bd0b37745649b27a53a95f06d60, type: 3}
+      propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5425993555858310428, guid: f64f4bd0b37745649b27a53a95f06d60, type: 3}
       propertyPath: m_PresetInfoIsWorld
       value: 1
@@ -429,7 +433,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7880566647083434207, guid: f64f4bd0b37745649b27a53a95f06d60, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7880566647083434207, guid: f64f4bd0b37745649b27a53a95f06d60, type: 3}
       propertyPath: m_AnchorMin.y

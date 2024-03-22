@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 225c793af168fef43b29d0e277c34e0b, type: 3}
   m_Name: Npc
   m_EditorClassIdentifier: 
-  _maxHealth: 30
+  _maxHealth: 50
   _maxFood: 50
   _decreaseFoodPerSec: 1
   _decreaseHealthWhenNotEnoughFoodPerSec: 1
-  _maxThristy: 10
+  _maxThristy: 50
   _decreaseThristyPerSec: 1
   _decreaseHealthWhenNotEnoughThirstyPerSec: 1
   _maxTemperature: 36

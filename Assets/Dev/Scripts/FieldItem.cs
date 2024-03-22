@@ -36,6 +36,11 @@ public class FieldItem : MonoBehaviour, IBObjectFieldItem
 
     public void Collect()
     {
+        if (TryGetComponent(out AudioSource source))
+        {
+            source.Play();
+        }
+        
         Destroy(gameObject);
     }
 }

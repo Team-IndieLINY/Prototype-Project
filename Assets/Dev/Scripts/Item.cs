@@ -13,9 +13,11 @@ public class Item : ScriptableObject
 
     [SerializeField]private int _fillFood; 
     [SerializeField]private int _fillHealth;
+    [SerializeField]private int _fillThirsty;
 
     public int FillFood => _fillFood;
     public int FillHealth => _fillHealth;
+    public int FillThirsty => _fillThirsty;
 
     public string Name => _name;
     public Sprite Icon => _icon;

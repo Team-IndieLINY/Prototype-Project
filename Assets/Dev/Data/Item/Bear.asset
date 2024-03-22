@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Bear
   m_EditorClassIdentifier: 
   _name: Bear
-  _icon: {fileID: 21300000, guid: c884071f95284b444aa1850ef1e3a0d7, type: 3}
+  _icon: {fileID: 21300000, guid: daee195fcb2b2934c91def753c5e4db6, type: 3}
   _fillFood: 0
   _fillHealth: 0
+  _fillThirsty: 0

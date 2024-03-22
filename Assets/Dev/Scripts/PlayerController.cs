@@ -5,9 +5,17 @@ using IndieLINY.Event;
 using UnityEngine;
 using XRProject.Utils.Log;
 
+[Serializable]
+public class PlayerSpriteDir
+{
+    public Sprite Sprite;
+    public Vector2Int Dir;
+}
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private SteminaView _steminaView;
+    [SerializeField] private PlayerSpriteDir[] _sprites;
+    
     public ActorSteminaData _steminaData;
     
     public float MovementSpeed;
@@ -83,24 +91,34 @@ public class PlayerController : MonoBehaviour
         
         var cols = Physics2D.OverlapCircleAll(transform.position, ItemCollectRadius);
 
-        foreach (var collider in cols)
+        Collider2D collider = null;
+        float dis = Mathf.Infinity;
+        foreach (var col in cols)
         {
-            if (collider.TryGetComponent<CollisionInteraction>(out var Interaction))
+            if (col.TryGetComponent<CollisionInteraction>(out var tInteraction))
             {
-                if (Interaction == this.Interaction) continue;
-                
-                if(Interaction.TryGetContractInfo(out ObjectContractInfo objInfo) &&
-                   objInfo.TryGetBehaviour(out IBObjectFieldItem item))
-                {
-                    DoInteractFieldItem(item);
-                }
-                else if (Interaction.TryGetContractInfo(out ActorContractInfo actorInfo) &&
-                         actorInfo.TryGetBehaviour<IBActorStemina>(out var stemina))
-                {
-                    DoInteractNPC(stemina);
-                }
-                
-                return;
+                if (tInteraction == this.Interaction) continue;
+            }
+            float tempDis = Vector2.Distance(col.transform.position, transform.position);
+            if (tempDis <= dis)
+            {
+                collider = col;
+                dis = tempDis;
+            }
+        }
+
+        if (collider == null) return;
+        if (collider.TryGetComponent<CollisionInteraction>(out var ttInteraction))
+        {
+            if(ttInteraction.TryGetContractInfo(out ObjectContractInfo objInfo) &&
+               objInfo.TryGetBehaviour(out IBObjectFieldItem item))
+            {
+                DoInteractFieldItem(item);
+            }
+            else if (ttInteraction.TryGetContractInfo(out ActorContractInfo actorInfo) &&
+                     actorInfo.TryGetBehaviour<IBActorStemina>(out var stemina))
+            {
+                DoInteractNPC(stemina);
             }
         }
     }
@@ -127,6 +145,30 @@ public class PlayerController : MonoBehaviour
             x = Input.GetAxisRaw("Horizontal"),
             y = Input.GetAxisRaw("Vertical")
         };
+
+        Vector2Int iDir = Vector2Int.zero;
+
+        if (dir.x > 0f) iDir.x = 1;
+        else if (dir.x < 0f) iDir.x = -1;
+        else iDir.x = 0;
+        
+        if (dir.y > 0f) iDir.y = 1;
+        else if (dir.y < 0f) iDir.y = -1;
+        else iDir.y = 0;
+
+        int x = iDir.x;
+        int y = iDir.y;
+
+        foreach (var spriteDir in _sprites)
+        {
+            if (x == spriteDir.Dir.x && y == spriteDir.Dir.y)
+            {
+                if(TryGetComponent<SpriteRenderer>(out var renderer))
+                {
+                    renderer.sprite = spriteDir.Sprite;
+                }
+            }
+        }
 
         Rigid2D.velocity = dir * MovementSpeed;
     }
