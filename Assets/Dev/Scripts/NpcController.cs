@@ -8,8 +8,10 @@ public class NpcController : MonoBehaviour
 {
     [SerializeField] private NpcInventory _inventory;
     [SerializeField] private SteminaView _steminaView;
-    [SerializeField] private FeedbackController _feedbackController;
     [SerializeField] private ActorSteminaData _data;
+    [SerializeField] private ScriptView _scriptView;
+    [SerializeField] private ScriptController _scriptController;
+    [SerializeField] private ScriptData _scriptModel;
 
     [SerializeField] private CollisionInteraction _interaction;
     public CollisionInteraction Interaction => _interaction;
@@ -35,6 +37,9 @@ public class NpcController : MonoBehaviour
         StartCoroutine(Stemina.UpdatePerSec());
 
         Stemina.OnEaten += OnEaten;
+
+        _scriptModel = _scriptModel.Clone();
+        _scriptController = new ScriptController(_scriptModel, _scriptView, Stemina.Properties, _data);
     }
 
     private void Update()
@@ -47,6 +52,6 @@ public class NpcController : MonoBehaviour
 
     private void OnEaten(SteminaController controller)
     {
-        _feedbackController.AnimateFeedback(EFeedbackType.Food);
+        _scriptView.Show(_scriptModel.Eaten);
     }
 }

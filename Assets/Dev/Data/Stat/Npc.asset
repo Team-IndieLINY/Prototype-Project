@@ -16,7 +16,7 @@ MonoBehaviour:
   _maxFood: 50
   _decreaseFoodPerSec: 1
   _decreaseHealthWhenNotEnoughFoodPerSec: 1
-  _maxThristy: 1
+  _maxThristy: 10
   _decreaseThristyPerSec: 1
   _decreaseHealthWhenNotEnoughThirstyPerSec: 1
   _maxTemperature: 36

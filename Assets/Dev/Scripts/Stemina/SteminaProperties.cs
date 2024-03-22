@@ -8,11 +8,29 @@ public class BaseValue {}
 public class DataValueT<T> : BaseValue
     where T : struct
 {
-    public T Value;
+    private T _value;
+
+    public T Value
+    {
+        get => _value;
+        set
+        {
+            T temp = this._value;
+            this._value = value;
+            OnUpdate(temp, this._value);
+        }
+    }
+
+    public event Action<T, T> OnChangedValue;
 
     public DataValueT()
     {
         Value = default;
+    }
+
+    protected virtual void OnUpdate(T before, T after)
+    {
+        OnChangedValue?.Invoke(before, after);
     }
 }
 
@@ -22,6 +40,14 @@ public class StatDataValue : DataValueT<int>
     public StatDataValue(EStatCode code)
     {
         this.StatCode = code;
+    }
+    
+    public event Action<int, int, EStatCode> OnChangedValueType;
+
+    protected override void OnUpdate(int before, int after)
+    {
+        base.OnUpdate(before, after);
+        OnChangedValueType?.Invoke(before, after, StatCode);
     }
 }
 

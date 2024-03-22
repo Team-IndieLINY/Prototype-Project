@@ -202,7 +202,7 @@ GameObject:
   - component: {fileID: 275326512}
   - component: {fileID: 275326513}
   m_Layer: 6
-  m_Name: FireCamp
+  m_Name: CampFire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

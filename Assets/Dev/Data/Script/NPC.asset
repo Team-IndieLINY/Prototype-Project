@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5d98b5b0423f0244a50659171939f6c, type: 3}
+  m_Name: NPC
+  m_EditorClassIdentifier: 
+  _entities:
+  - _text: hungry...
+    _displayDuration: 1.5
+    _coolTime: 10
+    _healthPercentage: 1
+    _foodPercentage: 0.6
+    _thristyPercentage: 1
+  - _text: very hungry...
+    _displayDuration: 1.5
+    _coolTime: 10
+    _healthPercentage: 1
+    _foodPercentage: 0.4
+    _thristyPercentage: 1
+  - _text: very very hungry...
+    _displayDuration: 1.5
+    _coolTime: 10
+    _healthPercentage: 1
+    _foodPercentage: 0.2
+    _thristyPercentage: 1
+  - _text: thirsty...
+    _displayDuration: 1.5
+    _coolTime: 10
+    _healthPercentage: 1
+    _foodPercentage: 1
+    _thristyPercentage: 0.6
+  - _text: very thirsty...
+    _displayDuration: 1.5
+    _coolTime: 10
+    _healthPercentage: 1
+    _foodPercentage: 1
+    _thristyPercentage: 0.4
+  - _text: very very thirsty...
+    _displayDuration: 1.5
+    _coolTime: 10
+    _healthPercentage: 1
+    _foodPercentage: 1
+    _thristyPercentage: 0.2
+  - _text: i'm dying..
+    _displayDuration: 3
+    _coolTime: 10
+    _healthPercentage: 0.666
+    _foodPercentage: 1
+    _thristyPercentage: 0.2
+  - _text: i'm dying..
+    _displayDuration: 3
+    _coolTime: 10
+    _healthPercentage: 0.666
+    _foodPercentage: 0.2
+    _thristyPercentage: 1
+  - _text: good bye...
+    _displayDuration: 3
+    _coolTime: 10
+    _healthPercentage: 0.2
+    _foodPercentage: 1
+    _thristyPercentage: 1
+  _eaten:
+    _text: thanks!
+    _displayDuration: 1.5
+    _coolTime: 10
+    _healthPercentage: 0
+    _foodPercentage: 0
+    _thristyPercentage: 0

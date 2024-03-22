@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 4012431295932216591}
   - component: {fileID: 7704661247025893856}
   - component: {fileID: 6213634481227949079}
-  - component: {fileID: 5021097493240944891}
+  - component: {fileID: 4102528574055436708}
   m_Layer: 5
   m_Name: Feedback
   m_TagString: Untagged
@@ -237,7 +237,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &5021097493240944891
+--- !u!114 &4102528574055436708
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -246,9 +246,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 8038579317870797665}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b37a722cb2131047889560202545fb0, type: 3}
+  m_Script: {fileID: 11500000, guid: c4edd12e5a189d34aad2fbd295d2381b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _feedbackData: {fileID: 0}
-  _masterView: {fileID: 8038579317870797665}
+  _panel: {fileID: 8038579317870797665}
   _text: {fileID: 2997390717135732317}
