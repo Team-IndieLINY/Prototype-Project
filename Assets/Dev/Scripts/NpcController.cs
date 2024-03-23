@@ -12,6 +12,7 @@ public class NpcController : MonoBehaviour
     [SerializeField] private ScriptView _scriptView;
     [SerializeField] private ScriptController _scriptController;
     [SerializeField] private ScriptData _scriptModel;
+    [SerializeField] private GameObject _tomb;
 
     [SerializeField] private CollisionInteraction _interaction;
     public CollisionInteraction Interaction => _interaction;
@@ -20,6 +21,7 @@ public class NpcController : MonoBehaviour
 
     private void Awake()
     {
+        _tomb.SetActive(false);
         Stemina = new SteminaController(Interaction, _steminaView, _data);
         
         Interaction.SetContractInfo(ActorContractInfo.Create(
@@ -48,6 +50,13 @@ public class NpcController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void OnDestroy()
+    {
+        var obj = Instantiate(_tomb);
+        obj.SetActive(true);
+        obj.transform.position = transform.position;
     }
 
     private void OnEaten(SteminaController controller)
