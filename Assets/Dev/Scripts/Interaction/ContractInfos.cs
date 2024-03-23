@@ -6,7 +6,7 @@ using UnityEngine;
 
 public interface IBActorStemina : IActorBehaviour
 {
-    public SteminaProperties Properties { get; }
+    public PropertiesConatiner<StatDataValue, int> StatProperties { get; }
     public void Eat(Item item);
 }
 

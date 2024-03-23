@@ -8,21 +8,18 @@ public class NpcController : MonoBehaviour
 {
     [SerializeField] private NpcInventory _inventory;
     
-    [SerializeField] private SteminaView _steminaView;
-    
     [SerializeField] private ScriptView _scriptView;
     [SerializeField] private ScriptController _scriptController;
     [SerializeField] private ScriptData _scriptModel;
 
     [SerializeField] private CollisionInteraction _interaction;
+    [SerializeField] private SteminaController _steminaController;
     
     public CollisionInteraction Interaction => _interaction;
-    public SteminaController Stemina { get; private set; }
+    public SteminaController Stemina => _steminaController;
 
     private void Awake()
     {
-        Stemina = new SteminaController(Interaction, _steminaView, TableContainer.Instance.Get<StatTable>("Stat"));
-        
         Interaction.SetContractInfo(ActorContractInfo.Create(
             transform,
             () => gameObject == false)
@@ -35,20 +32,15 @@ public class NpcController : MonoBehaviour
                 ;
         }
 
-        StartCoroutine(Stemina.UpdatePerSec());
-
         Stemina.OnEaten += OnEaten;
 
         _scriptModel = _scriptModel.Clone();
-        _scriptController = new ScriptController(_scriptModel, _scriptView, Stemina.Properties);
+        _scriptController = new ScriptController(_scriptModel, _scriptView, Stemina.StatProperties);
     }
 
     private void Update()
     {
-        if (Stemina.Properties.GetValue<int>(EStatCode.Health) <= 0)
-        {
-            Destroy(gameObject);
-        }
+        //TODO: 체력이 0 일 때 처리
     }
 
     private void OnEaten(SteminaController controller)

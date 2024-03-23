@@ -7,15 +7,15 @@ public class ScriptController
 {
     private ScriptData _model;
     private ScriptView _view;
-    private SteminaProperties _properties;
+    private PropertiesConatiner<StatDataValue, int> PropertiesConatiner;
 
-    public ScriptController(ScriptData model, ScriptView view, SteminaProperties properties)
+    public ScriptController(ScriptData model, ScriptView view, PropertiesConatiner<StatDataValue, int> propertiesConatiner)
     {
         _model = model;
         _view = view;
-        _properties = properties;
+        PropertiesConatiner = propertiesConatiner;
 
-        foreach (var refValue in properties.GetRefAll())
+        foreach (var refValue in propertiesConatiner.GetRefAll())
         {
             if (refValue is not StatDataValue statValue) continue;
 

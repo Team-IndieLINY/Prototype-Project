@@ -14,22 +14,21 @@ public interface ITableConatinedItem
 public class TableContainer : MonoBehaviourSingleton<TableContainer>
 {
     private Dictionary<string, ITableConatinedItem> _tableDict;
+
     public override void PostInitialize()
     {
         _tableDict = new();
-        
+
         Load();
     }
 
     private void WrappLoad<T>(string path)
         where T : ScriptableObject
     {
-        if (Resources.Load<StatTable>("Data/StatTable") is ITableConatinedItem statTable)
+        if (Resources.Load<T>(path) is ITableConatinedItem item)
         {
-            if (_tableDict.TryAdd(path, statTable) == false)
-            {
-                Debug.Assert(false);
-            }
+            Debug.Assert(_tableDict.ContainsKey(item.TableKey) == false, "이미 중복된 테이블 키: " + item.TableKey);
+            _tableDict.Add(item.TableKey, item);
         }
     }
 
@@ -37,6 +36,7 @@ public class TableContainer : MonoBehaviourSingleton<TableContainer>
     {
         WrappLoad<StatTable>("Data/StatTable");
     }
+
     public override void PostRelease()
     {
         _tableDict.Clear();
@@ -57,7 +57,7 @@ public class TableContainer : MonoBehaviourSingleton<TableContainer>
                 return true;
             }
         }
-        
+
         table = null;
         return false;
     }

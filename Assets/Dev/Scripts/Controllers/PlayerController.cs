@@ -14,8 +14,7 @@ public class PlayerSpriteDir
 }
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private SteminaView _steminaView;
-    
+    [SerializeField] private SteminaController _steminaController;
     [SerializeField] private PlayerSpriteDir[] _sprites;
     
     
@@ -27,13 +26,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private PlayerInventory _inventory;
     
     public PlayerInventory Inventory => _inventory;
-    public SteminaController Stemina { get; private set; }
+    public SteminaController Stemina => _steminaController;
     public Rigidbody2D Rigid2D => _rigid2D;
 
     private void Awake()
     {
         Interaction = GetComponentInChildren<CollisionInteraction>();
-        Stemina = new SteminaController(Interaction, _steminaView, TableContainer.Instance.Get<StatTable>("Stat"));
         
         if (Interaction == false)
         {
@@ -66,8 +64,6 @@ public class PlayerController : MonoBehaviour
             Rigid2D.interpolation = RigidbodyInterpolation2D.Interpolate;
             Rigid2D.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         }
-
-        StartCoroutine(Stemina.UpdatePerSec());
     }
 
     private void Update()

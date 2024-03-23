@@ -5,58 +5,51 @@ using IndieLINY.Event;
 using UnityEngine;
 
 
-public class SteminaController : IBActorStemina
+public class SteminaController : MonoBehaviour, IBActorStemina
 {
-    public CollisionInteraction Interaction { get; private set; }
-    public SteminaProperties Properties { get; private set; }
-    public SteminaView View;
-
+    [SerializeField] private CollisionInteraction _interaction;
+    [SerializeField] private SteminaView _view;
+    [SerializeField] private ValueUpdaterFactory _factory;
+    
+    public SteminaView View => _view;
+    public CollisionInteraction Interaction => _interaction;
+    public PropertiesConatiner<StatDataValue, int> StatProperties { get; private set; }
+    
     public event Action<SteminaController> OnEaten;
+    
 
-    public bool Enabled;
+    public bool Enabled = true;
 
     private StatTable _table;
-    public SteminaController(CollisionInteraction interaction, SteminaView view, StatTable table)
-    {
-        Debug.Assert(interaction);
-        Debug.Assert(table);
-        Debug.Assert(view);
-        
-        this.Interaction = interaction;
-        this.Properties = new SteminaProperties();
-        this.View = view;
-        this._table = table;
-        
-        Enabled = true;
 
-        SteminaUtils.SetBasicValue(this, _table);
-        SteminaUtils.UpdateValidation(this, _table);
-        SteminaUtils.UpdateView(this);
+    private void Awake()
+    {
+        _table = TableContainer.Instance.Get<StatTable>("Stat");
+        
+        StatProperties = StatUtils.CreateProperties(1, _factory, _table);
+        StatUtils.UpdateValidation(this, _table);
+        StatUtils.UpdateView(this);
     }
 
-    public IEnumerator UpdatePerSec()
+    private void Update()
     {
-        var wait = new WaitForSeconds(1f);
-        while (true)
-        {
-            SteminaUtils.UpdateStemina(this, _table);
-            SteminaUtils.UpdateValidation(this, _table);
-            
-            SteminaUtils.UpdateView(this);
-            
-            yield return wait;
-        }
+        StatUtils.FrameUpdateStemina(this, _table);
+        StatUtils.UpdateValidation(this, _table);
+        StatUtils.UpdateView(this);
     }
 
     public void Eat(Item item)
     {
-        Properties.DoAction<int>(EStatCode.Food, x => x + item.FillFood);
-        Properties.DoAction<int>(EStatCode.Health, x => x + item.FillHealth);
-        Properties.DoAction<int>(EStatCode.Thirsty, x => x + item.FillThirsty);
+        //TODO: 음식 먹었을 때 스텟 상태 갱신 코드 작성
 
-        SteminaUtils.UpdateValidation(this, _table);
-        SteminaUtils.UpdateView(this);
+        StatUtils.UpdateValidation(this, _table);
+        StatUtils.UpdateView(this);
 
         OnEaten?.Invoke(this);
+    }
+
+    private void OnDestroy()
+    {
+        StatUtils.Release(this);
     }
 }
