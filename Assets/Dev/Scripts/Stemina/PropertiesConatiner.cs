@@ -34,7 +34,7 @@ public class DataValueT<T> : BaseValue
 
     public DataValueT(IValueUpdater updater) : base(updater)
     {
-        Value = default;
+        _value = default;
     }
 
     protected virtual void OnUpdate(T before, T after)
@@ -60,6 +60,15 @@ public class StatDataValue : DataValueT<int>
     {
         base.OnUpdate(before, after);
         OnChangedValueType?.Invoke(before, after, StatCode);
+        
+        if (after > Entity.StatBasicValue)
+        {
+            Value = Entity.StatBasicValue;
+        }
+        else if (after < 0)
+        {
+            Value = 0;
+        }
     }
 }
 

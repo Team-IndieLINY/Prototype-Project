@@ -15,6 +15,12 @@ public class ValueUpdater : IValueUpdater
     private ValueUpdaterParameter _parameter;
     private IEnumerator _coObj;
 
+    public float Speed
+    {
+        get => _parameter.Speed;
+        set => _parameter.Speed = value;
+    }
+
     private bool _running;
 
     public ValueUpdater(ValueUpdaterFactory factory)
@@ -27,43 +33,65 @@ public class ValueUpdater : IValueUpdater
         _parameter = parameter;
     }
 
-    private IEnumerator CoUpdate(ValueUpdaterParameter parameter)
-    {
-        var wait = new WaitForSeconds(parameter.UpdateIntervalMs * 0.001f);
-
-        while (true)
-        {
-            parameter.OnUpdate?.Invoke(parameter);
-            yield return wait;
-        }
-    }
-
     public void Start()
     {
         if (_running) return;
-        
+
         _running = true;
-        _factory.StartCoroutine(_coObj = CoUpdate(_parameter));
+
+        _parameter.CurrentCallback = _parameter.EntryPoint;
+        _factory.StartCoroutine(_coObj = CoUpdate());
     }
 
-    public void Stop()
+    private IEnumerator CoUpdate()
+    {
+        yield return null;
+        
+        IEnumerator enumerator = _parameter.CurrentCallback(_parameter);
+        
+        while (true)
+        {
+            if (_running == false)
+            {
+                yield return null;
+                continue;
+            }
+            
+            if (enumerator == null)
+            {
+                break;
+            }
+
+            yield return enumerator.Current;
+            if (enumerator.MoveNext() == false)
+            {
+                break;
+            }
+        }
+
+        _factory.StartCoroutine(_coObj = CoUpdate());
+    }
+
+    public void Pause()
     {
         _running = false;
-        
-        if(_coObj != null)
-            _factory.StopCoroutine(_coObj);
-        
-        _coObj = null;
+    }
+
+    public void Resume()
+    {
+        _running = true;
     }
 
     public void Reset()
     {
-        
+        _running = false;
+        _parameter.CurrentCallback = _parameter.EntryPoint;
+        _factory.StopCoroutine(_coObj);
+        _factory.StartCoroutine(CoUpdate());
     }
 
     public void Release()
     {
-        Stop();
         _factory = null;
         _parameter = null;
         _coObj = null;

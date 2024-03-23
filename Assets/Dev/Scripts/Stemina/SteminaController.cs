@@ -16,25 +16,38 @@ public class SteminaController : MonoBehaviour, IBActorStemina
     public PropertiesConatiner<StatDataValue, int> StatProperties { get; private set; }
     
     public event Action<SteminaController> OnEaten;
-    
-
-    public bool Enabled = true;
 
     private StatTable _table;
+
+    private bool _isRunning;
+
+    public bool IsRunning
+    {
+        get => _isRunning;
+        set
+        {
+            _isRunning = value;
+
+            foreach (var refValue in StatProperties.GetRefAll())
+            {
+                if(_isRunning)
+                    refValue.Updater.Resume();
+                else
+                    refValue.Updater.Pause();
+            }
+        }
+    }
 
     private void Awake()
     {
         _table = TableContainer.Instance.Get<StatTable>("Stat");
         
         StatProperties = StatUtils.CreateProperties(1, _factory, _table);
-        StatUtils.UpdateValidation(this, _table);
         StatUtils.UpdateView(this);
     }
 
     private void Update()
     {
-        StatUtils.FrameUpdateStemina(this, _table);
-        StatUtils.UpdateValidation(this, _table);
         StatUtils.UpdateView(this);
     }
 
@@ -42,7 +55,6 @@ public class SteminaController : MonoBehaviour, IBActorStemina
     {
         //TODO: 음식 먹었을 때 스텟 상태 갱신 코드 작성
 
-        StatUtils.UpdateValidation(this, _table);
         StatUtils.UpdateView(this);
 
         OnEaten?.Invoke(this);

@@ -2,22 +2,27 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.PackageManager.UI;
 using UnityEngine;
 
 
 
 public class ValueUpdaterParameter
 {
+    public delegate IEnumerator StateCallback(ValueUpdaterParameter callback);
+    
     public BaseValue Value;
-    public int UpdateIntervalMs;
-    public Action<ValueUpdaterParameter> OnUpdate;
+    public StateCallback EntryPoint;
+    public StateCallback CurrentCallback;
+    public float Speed = 1f;
 }
 
 public interface IValueUpdater
 {
     public void Setup(ValueUpdaterParameter parameter);
     public void Start();
-    public void Stop();
+    public void Pause();
+    public void Resume();
     public void Reset();
     public void Release();
 }
@@ -40,22 +45,6 @@ public interface IValueUpdaterFactory
 
 public static class StatUtils
 {
-    public static void FrameUpdateStemina(SteminaController controller, StatTable table)
-    {
-        if (controller.Enabled == false) return;
-        var properties = controller.StatProperties;
-        
-        
-    }
-
-    public static void UpdateValidation(SteminaController controller, StatTable table)
-    {
-        if (controller.Enabled == false) return;
-        var properties = controller.StatProperties;
-        
-        //TODO: 스텟 값 유효성 검사 코드 작성
-    }
-
     public static void UpdateView(SteminaController controller)
     {
         var view = controller.View;
@@ -102,10 +91,7 @@ public static class StatUtils
             updater.Setup(new ValueUpdaterParameter()
             {
                 Value =  refValue,
-                OnUpdate = UpdateProperty,
-                
-                //TODO: ms단위로 반복 단위를 테이블에서 참조하여 설정
-                UpdateIntervalMs = 1000
+                EntryPoint = StatState.EntryPoint
             });
             updater.Start();
             
@@ -115,19 +101,38 @@ public static class StatUtils
         return new PropertiesConatiner<StatDataValue, int>(allRef);
     }
 
-    private static void UpdateProperty(ValueUpdaterParameter parameter)
-    {
-        if (parameter.Value is not StatDataValue refValue) return;
-        
-        //TODO: property 갱신 로직 작성
-        refValue.Value -= 10;
-    }
-
     public static void Release(SteminaController controller)
     {
         foreach (var refValue in controller.StatProperties.GetRefAll())
         {
             refValue.Updater.Release();
+        }
+    }
+}
+
+public static class StatState
+{
+    public static IEnumerator EntryPoint(ValueUpdaterParameter parameter)
+    {
+        //TODO: property 갱신 로직 작성
+        parameter.CurrentCallback = SampleUpdate;
+        yield break;
+    }
+    
+    public static IEnumerator SampleUpdate(ValueUpdaterParameter parameter)
+    {
+        if (parameter.Value is not StatDataValue refValue) yield break;
+        
+        for (int i = 0; i < 10; i++)
+        {
+            refValue.Value -= 5;
+            yield return new WaitForSeconds(0.2f * parameter.Speed);
+        }
+
+        for (int i = 0; i < 10; i++)
+        {
+            refValue.Value += 5;
+            yield return new WaitForSeconds(0.2f * parameter.Speed);
         }
     }
 }
