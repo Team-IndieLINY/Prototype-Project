@@ -19,106 +19,25 @@ public static class SteminaUtils
     {
         if (controller.Enabled == false) return;
         var properties = controller.Properties;
-        var steminaData = controller.SteminaData;
-
-        var healthRef = controller.Properties.GetRef<int>(EStatCode.Health);
-
-        if (properties
-            .DoCondition<int>(EStatCode.Food, x => x <= 0, out _))
-        {
-            healthRef.Value -= steminaData.DecreaseHealthWhenNotEnoughFoodPerSec;
-        }
-
-        if (properties
-            .DoCondition<int>(EStatCode.Thirsty, x => x <= 0, out _))
-        {
-            healthRef.Value -= steminaData.DecreaseHealthWhenNotEnoughThirstyPerSec;
-        }
-        
-
-        if (properties
-            .DoCondition<int>(EStatCode.Temperature, x => x <= controller.SteminaData.MinTemperature, out _))
-        {
-            healthRef.Value -= steminaData.DecreaseHealthWhenNotEnoughTemperaturePerSec;
-        }
         
         
-        properties.DoAction<int>(EStatCode.Food, x=>x - steminaData.DecreaseFoodPerSec);
-        properties.DoAction<int>(EStatCode.Thirsty, x=>x - steminaData.DecreaseThristyPerSec);
-
-        properties.DoAction<int>(EStatCode.Temperature, x =>
-        {
-            if (Physics2D.OverlapCircle(controller.Interaction.transform.position,
-                    steminaData.BeginIncreaseTemperatureRadius, LayerMask.GetMask("Campfire")))
-            {
-                return x + steminaData.IncreaseTemperaturePerSec;
-            }
-            else
-            {
-                return x - steminaData.DecreaseTemperaturePerSec;
-            }
-        });
     }
 
     public static void UpdateValidation(SteminaController controller, StatTable table)
     {
         if (controller.Enabled == false) return;
         var properties = controller.Properties;
-        var steminaData = controller.SteminaData;
         
-        
-        //health validations
-        properties.DoCondition<int>(EStatCode.Health, x => x > steminaData.MaxHealth, refValue =>
-        {
-            refValue.Value = steminaData.MaxHealth;
-        });
-        properties.DoCondition<int>(EStatCode.Health, x => x < 0, refValue =>
-        {
-            refValue.Value = 0;
-        });
-
-        //food validations
-        properties.DoCondition<int>(EStatCode.Food, x => x > steminaData.MaxFood, refValue =>
-        {
-            refValue.Value = steminaData.MaxFood;
-        });
-        properties.DoCondition<int>(EStatCode.Food, x => x < 0, refValue =>
-        {
-            refValue.Value = 0;
-        });
-        
-        //thirsty validations
-        properties.DoCondition<int>(EStatCode.Thirsty, x => x > steminaData.MaxThristy, refValue =>
-        {
-            refValue.Value = steminaData.MaxThristy;
-        });
-        properties.DoCondition<int>(EStatCode.Thirsty, x => x < 0, refValue =>
-        {
-            refValue.Value = 0;
-        });
-        
-        //temperature validations
-        properties.DoCondition<int>(EStatCode.Temperature, x => x > steminaData.MaxTemperature, refValue =>
-        {
-            refValue.Value = steminaData.MaxTemperature;
-        });
-        properties.DoCondition<int>(EStatCode.Temperature, x => x < steminaData.MinTemperature, refValue =>
-        {
-            refValue.Value = steminaData.MinTemperature;
-        });
+        //TODO: 스텟 값 유효성 검사 코드 작성
     }
 
     public static void UpdateView(SteminaController controller)
     {
         var view = controller.View;
-
-        view.Food = controller.Properties.GetValue<int>(EStatCode.Food);
-        view.Health = controller.Properties.GetValue<int>(EStatCode.Health);
-        view.Thirsty = controller.Properties.GetValue<int>(EStatCode.Thirsty);
-
-        view.MaxFood = controller.SteminaData.MaxFood;
-        view.MaxHealth = controller.SteminaData.MaxHealth;
-        view.MaxThirsty = controller.SteminaData.MaxThristy;
+        
+        //TODO: stat을 view에 적용하는 코드 작성
+        
+        //TODO: Stat의 max 값을 view에 적용하는 코드 작성
         
         view.UpdateView();
     }
@@ -135,13 +54,7 @@ public static class SteminaUtils
         //            .First(x => x.PlayerStatCode == i)
         //            .StatBasicValue);
         //}
-
-        var properties = controller.Properties;
-        var data = controller.SteminaData;
         
-        properties.SetValue(EStatCode.Health, data.MaxHealth);
-        properties.SetValue(EStatCode.Food, data.MaxFood);
-        properties.SetValue(EStatCode.Thirsty, data.MaxThristy);
-        properties.SetValue(EStatCode.Temperature, data.MaxTemperature);
+        //TODO: 기본값 설정 코드 작성
     }
 }

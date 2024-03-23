@@ -7,20 +7,21 @@ using UnityEngine;
 public class NpcController : MonoBehaviour
 {
     [SerializeField] private NpcInventory _inventory;
+    
     [SerializeField] private SteminaView _steminaView;
-    [SerializeField] private ActorSteminaData _data;
+    
     [SerializeField] private ScriptView _scriptView;
     [SerializeField] private ScriptController _scriptController;
     [SerializeField] private ScriptData _scriptModel;
 
     [SerializeField] private CollisionInteraction _interaction;
-    public CollisionInteraction Interaction => _interaction;
     
+    public CollisionInteraction Interaction => _interaction;
     public SteminaController Stemina { get; private set; }
 
     private void Awake()
     {
-        Stemina = new SteminaController(Interaction, _steminaView, _data);
+        Stemina = new SteminaController(Interaction, _steminaView, TableContainer.Instance.Get<StatTable>("Stat"));
         
         Interaction.SetContractInfo(ActorContractInfo.Create(
             transform,
@@ -39,7 +40,7 @@ public class NpcController : MonoBehaviour
         Stemina.OnEaten += OnEaten;
 
         _scriptModel = _scriptModel.Clone();
-        _scriptController = new ScriptController(_scriptModel, _scriptView, Stemina.Properties, _data);
+        _scriptController = new ScriptController(_scriptModel, _scriptView, Stemina.Properties);
     }
 
     private void Update()

@@ -5,14 +5,12 @@ using UnityEngine;
 
 public class ScriptController
 {
-    public ActorSteminaData _steminaData;
     private ScriptData _model;
     private ScriptView _view;
     private SteminaProperties _properties;
 
-    public ScriptController(ScriptData model, ScriptView view, SteminaProperties properties, ActorSteminaData steminaData)
+    public ScriptController(ScriptData model, ScriptView view, SteminaProperties properties)
     {
-        _steminaData = steminaData;
         _model = model;
         _view = view;
         _properties = properties;
@@ -35,14 +33,7 @@ public class ScriptController
 
     private void DoFilteredAction(ScriptEntity entity)
     {
-        if (entity.CanDisplay &&
-            entity.FoodPercentage >= _properties.GetValue<int>(EStatCode.Food) / (float)_steminaData.MaxFood &&
-            entity.HealthPercentage >= _properties.GetValue<int>(EStatCode.Health) / (float)_steminaData.MaxHealth &&
-            entity.ThristyPercentage >= _properties.GetValue<int>(EStatCode.Thirsty) / (float)_steminaData.MaxThristy)
-        {
-            _view.Show(entity);
-            _view.StartCoroutine(CoEntityUpdate(entity));
-        }
+        //TODO: 엑터의 스텟 상태 관찰에 의한 스크립트 출력 기능 구현
     }
 
     private IEnumerator CoEntityUpdate(ScriptEntity entity)

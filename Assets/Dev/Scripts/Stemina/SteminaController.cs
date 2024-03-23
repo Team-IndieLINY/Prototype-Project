@@ -9,7 +9,6 @@ public class SteminaController : IBActorStemina
 {
     public CollisionInteraction Interaction { get; private set; }
     public SteminaProperties Properties { get; private set; }
-    public ActorSteminaData SteminaData { get; private set; }
     public SteminaView View;
 
     public event Action<SteminaController> OnEaten;
@@ -17,18 +16,16 @@ public class SteminaController : IBActorStemina
     public bool Enabled;
 
     private StatTable _table;
-    public SteminaController(CollisionInteraction interaction, SteminaView view, ActorSteminaData data)
+    public SteminaController(CollisionInteraction interaction, SteminaView view, StatTable table)
     {
-        _table = TableContainer.Instance.StatTable;
-        
         Debug.Assert(interaction);
-        Debug.Assert(data);
+        Debug.Assert(table);
         Debug.Assert(view);
         
         this.Interaction = interaction;
-        Properties = new SteminaProperties();
+        this.Properties = new SteminaProperties();
         this.View = view;
-        SteminaData = data;
+        this._table = table;
         
         Enabled = true;
 
