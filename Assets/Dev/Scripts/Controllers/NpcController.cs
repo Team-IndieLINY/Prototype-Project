@@ -11,6 +11,7 @@ public class NpcController : MonoBehaviour
     [SerializeField] private ScriptView _scriptView;
     [SerializeField] private ScriptController _scriptController;
     [SerializeField] private ScriptData _scriptModel;
+    [SerializeField] private GameObject _tomb;
 
     [SerializeField] private CollisionInteraction _interaction;
     [SerializeField] private SteminaController _steminaController;
@@ -41,6 +42,13 @@ public class NpcController : MonoBehaviour
     private void Update()
     {
         //TODO: 체력이 0 일 때 처리
+    }
+
+    private void OnDestroy()
+    {
+        var obj = Instantiate(_tomb);
+        obj.SetActive(true);
+        obj.transform.position = transform.position;
     }
 
     private void OnEaten(SteminaController controller)
