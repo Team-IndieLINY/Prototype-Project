@@ -3,7 +3,7 @@ name: 'sprint pullrequest discord notification'
 on:
   pull_request:
     branches:
-      - '**-sprint'
+      - 'feature/**'
 
 jobs:
   notify:
