@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Discord notification
         env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_PULL_REQUEST }}
           
         uses: Ilshidur/action-discord@master
         with:
