@@ -14,23 +14,24 @@ public class PlayerSpriteDir
 }
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private SteminaView _steminaView;
+    [SerializeField] private SteminaController _steminaController;
     [SerializeField] private PlayerSpriteDir[] _sprites;
     
-    public ActorSteminaData _steminaData;
     
     public float MovementSpeed;
     public bool UsePresetRigidBodyOptions;
     public float ItemCollectRadius;
 
-    public Rigidbody2D Rigid2D;
-    public PlayerInventory Inventory;
-    public SteminaController Stemina { get; private set; }
+    [SerializeField] private Rigidbody2D _rigid2D;
+    [SerializeField] private PlayerInventory _inventory;
+    
+    public PlayerInventory Inventory => _inventory;
+    public SteminaController Stemina => _steminaController;
+    public Rigidbody2D Rigid2D => _rigid2D;
 
     private void Awake()
     {
         Interaction = GetComponentInChildren<CollisionInteraction>();
-        Stemina = new SteminaController(Interaction, _steminaView, _steminaData);
         
         if (Interaction == false)
         {
@@ -54,7 +55,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         if (Rigid2D == false)
-            Rigid2D = GetComponent<Rigidbody2D>();
+            _rigid2D = GetComponent<Rigidbody2D>();
 
         if (UsePresetRigidBodyOptions)
         {
@@ -63,8 +64,6 @@ public class PlayerController : MonoBehaviour
             Rigid2D.interpolation = RigidbodyInterpolation2D.Interpolate;
             Rigid2D.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         }
-
-        StartCoroutine(Stemina.UpdatePerSec());
     }
 
     private void Update()
@@ -204,9 +203,5 @@ public class PlayerController : MonoBehaviour
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, ItemCollectRadius);
-        
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, _steminaData.BeginIncreaseTemperatureRadius);
-        
     }
 }
