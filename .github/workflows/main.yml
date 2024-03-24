@@ -1,0 +1,20 @@
+name: 'sprint pullrequest discord notification'
+
+on:
+  pull_request:
+    branches:
+      - '**-sprint'
+
+jobs:
+  notify:
+    name: discord notification
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Discord notification
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          
+        uses: Ilshidur/action-discord@master
+        with:
+          args: "{{GITHUB_ACTOR_ID}}님이 Pull Request 했습니다!\n https://github.com/Team-IndieLINY/Prototype-Project/commit/{{GITHUB_SHA}}"
