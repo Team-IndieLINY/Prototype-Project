@@ -2,8 +2,7 @@ name: 'sprint pullrequest discord notification'
 
 on:
   pull_request:
-    branches:
-      - 'feature/**'
+    type: [opened, reopened]
 
 jobs:
   notify:
