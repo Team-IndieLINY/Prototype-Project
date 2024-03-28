@@ -38,6 +38,8 @@ public class NpcController : MonoBehaviour
         StartCoroutine(Stemina.UpdatePerSec());
 
         Stemina.OnEaten += OnEaten;
+        
+        _tomb.SetActive(false);
 
         _scriptModel = _scriptModel.Clone();
         _scriptController = new ScriptController(_scriptModel, _scriptView, Stemina.Properties, _data);
@@ -47,15 +49,11 @@ public class NpcController : MonoBehaviour
     {
         if (Stemina.Properties.GetValue<int>(EStatCode.Health) <= 0)
         {
+            var obj = Instantiate(_tomb);
+            obj.SetActive(true);
+            obj.transform.position = transform.position;    
             Destroy(gameObject);
         }
-    }
-
-    private void OnDestroy()
-    {
-        var obj = Instantiate(_tomb);
-        obj.SetActive(true);
-        obj.transform.position = transform.position;
     }
 
     private void OnEaten(SteminaController controller)
