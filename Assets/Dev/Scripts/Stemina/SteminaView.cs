@@ -9,6 +9,7 @@ public class SteminaView : MonoBehaviour
     [SerializeField] private Image _healthBar;
     [SerializeField] private Image _foodBar;
     [SerializeField] private Image _thirstyBar;
+    [SerializeField] private Image _temperatureBar;
 
     public int MaxHealth { get; set; }
     public int Health { get; set; }
@@ -18,6 +19,9 @@ public class SteminaView : MonoBehaviour
     
     public int MaxThirsty { get; set; }
     public int Thirsty { get; set; }
+    
+    public int MaxTemperature { get; set; }
+    public int Temperature { get; set; }
 
 
     public void UpdateView()
@@ -25,5 +29,6 @@ public class SteminaView : MonoBehaviour
         _healthBar.fillAmount = (float)Health / MaxHealth;
         _foodBar.fillAmount = (float)Food / MaxFood;
         _thirstyBar.fillAmount = (float)Thirsty / MaxThirsty;
+        _temperatureBar.fillAmount = (float)Temperature / MaxTemperature;
     }
 }

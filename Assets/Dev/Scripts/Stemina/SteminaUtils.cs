@@ -115,10 +115,12 @@ public static class SteminaUtils
         view.Food = controller.Properties.GetValue<int>(EStatCode.Food);
         view.Health = controller.Properties.GetValue<int>(EStatCode.Health);
         view.Thirsty = controller.Properties.GetValue<int>(EStatCode.Thirsty);
+        view.Temperature = controller.Properties.GetValue<int>(EStatCode.Temperature);
 
         view.MaxFood = controller.SteminaData.MaxFood;
         view.MaxHealth = controller.SteminaData.MaxHealth;
         view.MaxThirsty = controller.SteminaData.MaxThristy;
+        view.MaxTemperature = controller.SteminaData.MaxTemperature;
         
         view.UpdateView();
     }
@@ -126,15 +128,6 @@ public static class SteminaUtils
     public static void SetBasicValue(SteminaController controller, StatTable table)
     {
         if (controller.Enabled == false) return;
-
-        // 이후 데이터 테이블 적용시 다시 사용
-        //for (int i = (int)EStatCode.First; i < (int)EStatCode.Last; i++)
-        //{
-        //    controller.Properties.SetValue(
-        //        (EStatCode)i, table.Player_Stat_Master
-        //            .First(x => x.PlayerStatCode == i)
-        //            .StatBasicValue);
-        //}
 
         var properties = controller.Properties;
         var data = controller.SteminaData;
