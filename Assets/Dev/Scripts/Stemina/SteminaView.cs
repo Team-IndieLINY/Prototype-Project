@@ -22,8 +22,8 @@ public class SteminaView : MonoBehaviour
 
     public void UpdateView()
     {
-        if(MaxHealth != 0) _healthBar.fillAmount = (float)Health / MaxHealth;
-        if(MaxFood != 0) _foodBar.fillAmount = (float)Food / MaxFood;
-        if(MaxThirsty != 0) _thirstyBar.fillAmount = (float)Thirsty / MaxThirsty;
+        _healthBar.fillAmount = (float)Health / MaxHealth;
+        _foodBar.fillAmount = (float)Food / MaxFood;
+        _thirstyBar.fillAmount = (float)Thirsty / MaxThirsty;
     }
 }

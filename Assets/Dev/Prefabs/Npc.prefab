@@ -16,7 +16,6 @@ GameObject:
   - component: {fileID: 3068370112295554078}
   - component: {fileID: 6221819668082423499}
   - component: {fileID: 8335894215382861029}
-  - component: {fileID: 6028839684216649423}
   m_Layer: 0
   m_Name: Npc
   m_TagString: Untagged
@@ -40,7 +39,6 @@ Transform:
   - {fileID: 5043860950431066492}
   - {fileID: 2880578919487748141}
   - {fileID: 4657426567236600851}
-  - {fileID: 697886815918361645}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &352596415551206178
@@ -108,11 +106,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inventory: {fileID: 1174690048025345815}
+  _steminaView: {fileID: 7476927043449757360}
+  _data: {fileID: 11400000, guid: aa22d875be768ba4c98142ca9e3271b7, type: 2}
   _scriptView: {fileID: 6566020473563313106}
   _scriptModel: {fileID: 11400000, guid: 711e66e05756afd40a8b43577e619b12, type: 2}
   _tomb: {fileID: 4444701859713735530}
   _interaction: {fileID: 453974224165421503}
-  _steminaController: {fileID: 6028839684216649423}
 --- !u!114 &1174690048025345815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,66 +294,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &6028839684216649423
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1554908368997506160}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5914f2c38a1345418b6d23317deaec0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _interaction: {fileID: 453974224165421503}
-  _view: {fileID: 7476927043449757360}
-  _factory: {fileID: 1862614968832496401}
-  Enabled: 1
---- !u!1 &1564363282611795867
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 697886815918361645}
-  - component: {fileID: 1862614968832496401}
-  m_Layer: 0
-  m_Name: stemina_factory
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &697886815918361645
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1564363282611795867}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 895859393401412918}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1862614968832496401
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1564363282611795867}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a047eaed35d03e46923c7b1b182f989, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4444701859713735530
 GameObject:
   m_ObjectHideFlags: 0

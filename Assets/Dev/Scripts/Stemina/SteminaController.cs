@@ -5,63 +5,61 @@ using IndieLINY.Event;
 using UnityEngine;
 
 
-public class SteminaController : MonoBehaviour, IBActorStemina
+public class SteminaController : IBActorStemina
 {
-    [SerializeField] private CollisionInteraction _interaction;
-    [SerializeField] private SteminaView _view;
-    [SerializeField] private ValueUpdaterFactory _factory;
-    
-    public SteminaView View => _view;
-    public CollisionInteraction Interaction => _interaction;
-    public PropertiesConatiner<StatDataValue, int> StatProperties { get; private set; }
-    
+    public CollisionInteraction Interaction { get; private set; }
+    public SteminaProperties Properties { get; private set; }
+    public ActorSteminaData SteminaData { get; private set; }
+    public SteminaView View;
+
     public event Action<SteminaController> OnEaten;
 
+    public bool Enabled;
+
     private StatTable _table;
-
-    private bool _isRunning;
-
-    public bool IsRunning
+    public SteminaController(CollisionInteraction interaction, SteminaView view, ActorSteminaData data)
     {
-        get => _isRunning;
-        set
-        {
-            _isRunning = value;
-
-            foreach (var refValue in StatProperties.GetRefAll())
-            {
-                if(_isRunning)
-                    refValue.Updater.Resume();
-                else
-                    refValue.Updater.Pause();
-            }
-        }
-    }
-
-    private void Awake()
-    {
-        _table = TableContainer.Instance.Get<StatTable>("Stat");
+        _table = TableContainer.Instance.StatTable;
         
-        StatProperties = StatUtils.CreateProperties(1, _factory, _table);
-        StatUtils.UpdateView(this);
+        Debug.Assert(interaction);
+        Debug.Assert(data);
+        Debug.Assert(view);
+        
+        this.Interaction = interaction;
+        Properties = new SteminaProperties();
+        this.View = view;
+        SteminaData = data;
+        
+        Enabled = true;
+
+        SteminaUtils.SetBasicValue(this, _table);
+        SteminaUtils.UpdateValidation(this, _table);
+        SteminaUtils.UpdateView(this);
     }
 
-    private void Update()
+    public IEnumerator UpdatePerSec()
     {
-        StatUtils.UpdateView(this);
+        var wait = new WaitForSeconds(1f);
+        while (true)
+        {
+            SteminaUtils.UpdateStemina(this, _table);
+            SteminaUtils.UpdateValidation(this, _table);
+            
+            SteminaUtils.UpdateView(this);
+            
+            yield return wait;
+        }
     }
 
     public void Eat(Item item)
     {
-        //TODO: 음식 먹었을 때 스텟 상태 갱신 코드 작성
+        Properties.DoAction<int>(EStatCode.Food, x => x + item.FillFood);
+        Properties.DoAction<int>(EStatCode.Health, x => x + item.FillHealth);
+        Properties.DoAction<int>(EStatCode.Thirsty, x => x + item.FillThirsty);
 
-        StatUtils.UpdateView(this);
+        SteminaUtils.UpdateValidation(this, _table);
+        SteminaUtils.UpdateView(this);
 
         OnEaten?.Invoke(this);
-    }
-
-    private void OnDestroy()
-    {
-        StatUtils.Release(this);
     }
 }
