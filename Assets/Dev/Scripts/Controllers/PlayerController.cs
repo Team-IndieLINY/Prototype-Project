@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using IndieLINY.Event;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using XRProject.Utils.Log;
 
 [Serializable]
@@ -16,6 +17,9 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private SteminaView _steminaView;
     [SerializeField] private PlayerSpriteDir[] _sprites;
+
+    // TODO: it's dummy code, delete later
+    [SerializeField] private Image _sprintSteminaFillImage;
     
     public ActorSteminaData _steminaData;
     
@@ -181,7 +185,23 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        Rigid2D.velocity = dir * MovementSpeed;
+
+        var curSpeed = MovementSpeed;
+        var currentStemina = Stemina.Properties.GetRef<float>(EStatCode.Stemina);
+        if (Input.GetKey(KeyCode.LeftShift) && currentStemina.Value > 0)
+        {
+            currentStemina.Value -= _steminaData.DecraseSprintSteminaPerSec * Time.deltaTime;
+            curSpeed *= 1.5f;
+        }
+        else
+        {
+            currentStemina.Value += _steminaData.IncreaseSprintSteminaPerSec* Time.deltaTime;
+        }
+
+        _sprintSteminaFillImage.fillAmount = (float)currentStemina.Value / _steminaData.MaxSprintStemina;
+        
+    
+        Rigid2D.velocity = dir * curSpeed;
     }
 
     #region ActorBehviour

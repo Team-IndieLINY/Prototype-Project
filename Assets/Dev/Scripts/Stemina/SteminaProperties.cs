@@ -62,7 +62,10 @@ public class SteminaProperties
 
         for (int i = (int)EStatCode.First; i < (int)EStatCode.Last; i++)
         {
-            _array[i] = new StatDataValue((EStatCode)i);
+            if (i == (int)EStatCode.Stemina)
+                _array[i] = new DataValueT<float>();
+            else
+                _array[i] = new StatDataValue((EStatCode)i);
         }
     }
 

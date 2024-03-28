@@ -25,3 +25,6 @@ MonoBehaviour:
   _increaseTemperaturePerSec: 0
   _decreaseHealthWhenNotEnoughTemperaturePerSec: 0
   _BeginIncreaseTemperatureRadius: 5
+  _maxSprintStemina: 100
+  _decraseSprintSteminaPerSec: 35
+  _increaseSprintSteminaPerSec: 10

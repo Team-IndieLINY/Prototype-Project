@@ -25,6 +25,15 @@ public class ActorSteminaData : ScriptableObject
     [SerializeField] private int _decreaseHealthWhenNotEnoughTemperaturePerSec;
     [SerializeField] private float _BeginIncreaseTemperatureRadius;
 
+    [SerializeField] private float _maxSprintStemina;
+    [SerializeField] private float _decraseSprintSteminaPerSec;
+    [SerializeField] private float _increaseSprintSteminaPerSec;
+
+    public float IncreaseSprintSteminaPerSec => _increaseSprintSteminaPerSec;
+
+    public float MaxSprintStemina => _maxSprintStemina;
+
+
     public float BeginIncreaseTemperatureRadius => _BeginIncreaseTemperatureRadius;
 
     public int IncreaseTemperaturePerSec => _increaseTemperaturePerSec;
@@ -50,4 +59,6 @@ public class ActorSteminaData : ScriptableObject
     public int DecreaseTemperaturePerSec => _decreaseTemperaturePerSec;
 
     public int DecreaseHealthWhenNotEnoughTemperaturePerSec => _decreaseHealthWhenNotEnoughTemperaturePerSec;
+
+    public float DecraseSprintSteminaPerSec => _decraseSprintSteminaPerSec;
 }

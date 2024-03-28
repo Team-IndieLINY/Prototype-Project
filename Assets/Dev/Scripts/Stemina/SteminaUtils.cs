@@ -106,6 +106,16 @@ public static class SteminaUtils
         {
             refValue.Value = steminaData.MinTemperature;
         });
+        
+        //temperature validations
+        properties.DoCondition<float>(EStatCode.Stemina, x => x > steminaData.MaxSprintStemina, refValue =>
+        {
+            refValue.Value = steminaData.MaxSprintStemina;
+        });
+        properties.DoCondition<float>(EStatCode.Stemina, x => x < 0, refValue =>
+        {
+            refValue.Value = 0;
+        });
     }
 
     public static void UpdateView(SteminaController controller)
@@ -136,5 +146,6 @@ public static class SteminaUtils
         properties.SetValue(EStatCode.Food, data.MaxFood);
         properties.SetValue(EStatCode.Thirsty, data.MaxThristy);
         properties.SetValue(EStatCode.Temperature, data.MaxTemperature);
+        properties.SetValue<float>(EStatCode.Stemina, data.MaxSprintStemina);
     }
 }

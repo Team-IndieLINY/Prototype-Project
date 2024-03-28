@@ -19,9 +19,12 @@ MonoBehaviour:
   _maxThristy: 100
   _decreaseThristyPerSec: 1
   _decreaseHealthWhenNotEnoughThirstyPerSec: 1
-  _maxTemperature: 36
-  _minTemperature: -20
-  _decreaseTemperaturePerSec: 0
-  _increaseTemperaturePerSec: 0
-  _decreaseHealthWhenNotEnoughTemperaturePerSec: 0
+  _maxTemperature: 100
+  _minTemperature: 0
+  _decreaseTemperaturePerSec: 5
+  _increaseTemperaturePerSec: 5
+  _decreaseHealthWhenNotEnoughTemperaturePerSec: 1
   _BeginIncreaseTemperatureRadius: 3
+  _maxSprintStemina: 0
+  _decraseSprintSteminaPerSec: 0
+  _increaseSprintSteminaPerSec: 0
