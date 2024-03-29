@@ -11,7 +11,8 @@ public enum EOrderedObjectType
     Back,
     BackCollision,
     Floor,
-    Stair
+    Stair,
+    Inner
 }
 public class OrderedObject : MonoBehaviour
 {

@@ -12,6 +12,7 @@ public class HouseModule : MonoBehaviour
     [HideInInspector] public List<SpriteRenderer> floors;
     [HideInInspector] public List<SpriteRenderer> fronts_collider;
     [HideInInspector] public List<SpriteRenderer> backs_collider;
+    [HideInInspector] public List<SpriteRenderer> inners;
     [HideInInspector] public StairLine[] stairs;
 
     public int floor;
@@ -45,11 +46,15 @@ public class HouseModule : MonoBehaviour
                     break;
                 case EOrderedObjectType.Stair:
                     break;
+                case EOrderedObjectType.Inner:
+                    addingArray = inners;
+                    break;
                 default:
                     Debug.Assert(false);
                     break;
             }
             
+            Debug.Assert(addingArray != null) ;
             addingArray.Add(obj.Renderer);
         }
     }

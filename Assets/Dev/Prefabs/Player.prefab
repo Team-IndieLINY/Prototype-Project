@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 6256294162495226352}
   - component: {fileID: 2301437658419099912}
   - component: {fileID: 1496480516312453071}
+  - component: {fileID: 4875719226000297467}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -237,6 +238,7 @@ MonoBehaviour:
     Dir: {x: -1, y: 0}
   - Sprite: {fileID: 21300000, guid: ff40489e90cdcbf4f9e2d5f8993d9730, type: 3}
     Dir: {x: 1, y: 0}
+  _sprintSteminaFillImage: {fileID: 0}
   _steminaData: {fileID: 11400000, guid: 43b9e01bda02ac148803fb77011ecbac, type: 2}
   MovementSpeed: 2.5
   UsePresetRigidBodyOptions: 1
@@ -426,6 +428,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4875719226000297467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7058814369175597822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ff532e1ab22cfa4cb4628520e496649, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isPlayer: 1
 --- !u!1 &7381901276783424406
 GameObject:
   m_ObjectHideFlags: 0
