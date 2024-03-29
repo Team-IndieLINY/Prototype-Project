@@ -20,7 +20,27 @@ public class OrderedObject : MonoBehaviour
     public EOrderedObjectType Type => _type;
 
     [SerializeField] private SpriteRenderer _renderer;
+    private Material _backupMaterial;
+    private Material _createdMaterial;
 
+    public int Stencil
+    {
+        get => _renderer.material.GetInt("_Stencil");
+    }
+
+    public void SetStencilState(bool enabled)
+    {
+        if (enabled)
+        {
+            _createdMaterial.SetInt("_Stencil", 1);
+            _renderer.material = _createdMaterial;
+        }
+        else
+        {
+            _renderer.sharedMaterial = _backupMaterial;
+        }
+    }
+    
     public SpriteRenderer Renderer
     {
         get
@@ -40,5 +60,10 @@ public class OrderedObject : MonoBehaviour
         {
             _renderer = GetComponent<SpriteRenderer>();
         }
+
+        _backupMaterial = _renderer.sharedMaterial;
+        _backupMaterial.SetInt("Stencil", 2);
+        _createdMaterial = _renderer.material;
+        _renderer.material = _backupMaterial;
     }
 }

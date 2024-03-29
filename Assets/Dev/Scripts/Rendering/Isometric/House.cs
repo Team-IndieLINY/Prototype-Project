@@ -41,11 +41,12 @@ public class House : MonoBehaviour
     public Action _stateCallback;
     public int CurrentFloor = 1;
 
-    private void Awake()
+    private void Start()
     {
         OnPass = new AsyncReactiveProperty<(EHouseDirection, OrderedActor)>((EHouseDirection.None, null));
-        UniTask.Create(async () => OnUpdate());
         _currentValue = EHouseDirection.Front;
+        
+        OnUpdate().Forget();
         
         foreach (var obj in GetComponentsInChildren<HousePass>())
         {
@@ -61,15 +62,20 @@ public class House : MonoBehaviour
 
         foreach (var module in _modules)
         {
-            SetOrder(BackOrder, module.backs);
-            SetOrder(FloorOrder, module.floors);
-            SetOrder(FrontOrder, module.fronts);
-            SetOrder(FrontOrder, module.fronts_collider);
-            SetOrder(BackOrder, module.backs_collider);
+            int bais = (module.floor - 1) * 3;
+            SetOrder(FrontOrder + bais , module.fronts);
+            SetOrder(FrontOrder + bais, module.fronts_collider);
+            
+            SetOrder(BackOrder + bais, module.backs);
+            SetOrder(BackOrder + bais, module.backs_collider);
+            
+            SetOrder(FloorOrder + bais, module.floors);
         }
+        
+        OnFront();
     }
 
-    private async void OnUpdate()
+    private async UniTaskVoid OnUpdate()
     {
         while (true)
         {
@@ -135,7 +141,7 @@ public class House : MonoBehaviour
                 throw new ArgumentOutOfRangeException();
         }
 
-        _stateCallback();
+        _stateCallback?.Invoke();
     }
 
     private void SetEnable(bool value, List<SpriteRenderer> arr)

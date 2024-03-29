@@ -7,13 +7,13 @@ using UnityEngine;
 
 public class HouseModule : MonoBehaviour
 {
-    [HideInInspector] public List<SpriteRenderer> fronts;
-    [HideInInspector] public List<SpriteRenderer> backs;
-    [HideInInspector] public List<SpriteRenderer> floors;
-    [HideInInspector] public List<SpriteRenderer> fronts_collider;
-    [HideInInspector] public List<SpriteRenderer> backs_collider;
-    [HideInInspector] public List<SpriteRenderer> inners;
-    [HideInInspector] public StairLine[] stairs;
+    [NonSerialized] public List<SpriteRenderer> fronts = new();
+    [NonSerialized] public List<SpriteRenderer> backs = new();
+    [NonSerialized] public List<SpriteRenderer> floors = new();
+    [NonSerialized] public List<SpriteRenderer> fronts_collider = new();
+    [NonSerialized] public List<SpriteRenderer> backs_collider = new();
+    [NonSerialized] public List<SpriteRenderer> inners = new();
+    [NonSerialized] public StairLine[] stairs;
 
     public int floor;
 
