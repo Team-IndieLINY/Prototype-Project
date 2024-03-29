@@ -91,16 +91,16 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E) == false) return;
         
-        if(Inventory.Cursor.TryGetItem(out var item))
-        {
-            Inventory.RemoveItem(item);
-            Stemina.Eat(item);
-            
-            if (TryGetComponent(out AudioSource source))
-            {
-                source.Play();
-            }
-        }
+        // if(Inventory.Cursor.TryGetItem(out var item))
+        // {
+        //     Inventory.RemoveItem(item);
+        //     Stemina.Eat(item);
+        //     
+        //     if (TryGetComponent(out AudioSource source))
+        //     {
+        //         source.Play();
+        //     }
+        // }
     }
 
     private void WorldInteraction()
@@ -175,17 +175,17 @@ public class PlayerController : MonoBehaviour
 
     private void DoInteractFieldItem(IBObjectFieldItem item)
     {
-        Inventory.AddItem(item.Item);
+        // Inventory.AddItem(item.Item);
         item.Collect();
     }
 
     private void DoInteractNPC(IBActorStemina stemina)
     {
-        if (Inventory.Cursor.TryGetItem(out var item))
-        {
-            stemina.Eat(item);
-            Inventory.RemoveItem(item);
-        }
+        // if (Inventory.Cursor.TryGetItem(out var item))
+        // {
+        //     stemina.Eat(item);
+        //     Inventory.RemoveItem(item);
+        // }
     }
     
     private void Move()

@@ -51,7 +51,7 @@ public class SteminaController : IBActorStemina
         }
     }
 
-    public void Eat(Item item)
+    public void Eat(ItemDefinition item)
     {
         Properties.DoAction<int>(EStatCode.Food, x => x + item.FillFood);
         Properties.DoAction<int>(EStatCode.Health, x => x + item.FillHealth);
