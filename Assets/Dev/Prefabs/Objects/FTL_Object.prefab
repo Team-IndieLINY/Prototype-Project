@@ -61,13 +61,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ea0cbc7d6b254141bfc093fcbc5fdb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fronts: []
-  backs: []
-  floors: []
-  fronts_collider: []
-  backs_collider: []
-  inners: []
-  stairs: []
   floor: 1
 --- !u!1 &1258856869868926391
 GameObject:
@@ -179,7 +172,7 @@ GameObject:
   - component: {fileID: 2207398551321706346}
   - component: {fileID: 7855689525627817265}
   - component: {fileID: 1506805268292391984}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Object_Front_Left_Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}

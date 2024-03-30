@@ -12,6 +12,8 @@ public class NpcAIDataBoard
     public PrototypeAIStateMachine.State State;
     public NpcAIStateParam Param;
 
+    public bool DEBUG;
+
     public Sprite AttackSprite;
     public Sprite DefaultSprite;
 
@@ -337,6 +339,8 @@ public static class PrototypeAIUtil
         return closerPoint;
 
     }
+
+    private static Collider2D[] gOverlaps = new Collider2D[10000];
     public static List<Transform> FindWithFov(Vector2 position, Vector2 dir, float fov, float maxDistance, int laskMask)
     {
         var ql= Quaternion.Euler(0f, 0f, fov * -0.5f);
@@ -347,14 +351,15 @@ public static class PrototypeAIUtil
         var leftRay = ql * dir * maxDistance;
         var rightRay = qr * dir * maxDistance;
         
-        Debug.DrawRay(position, leftRay);
-        Debug.DrawRay(position, rightRay);
-        Debug.DrawRay(position, dir * maxDistance);
+        //Debug.DrawRay(position, leftRay);
+        //Debug.DrawRay(position, rightRay);
+        //Debug.DrawRay(position, dir * maxDistance);
 
-        var overlaps = Physics2D.OverlapCircleAll(position, maxDistance, laskMask);
-        List<Transform> list = new(overlaps.Length);
-        foreach (var col in overlaps)
+        var length = Physics2D.OverlapCircleNonAlloc(position, maxDistance, gOverlaps, laskMask);
+        List<Transform> list = new(length);
+        for(int i=0; i<length; i++)
         {
+            var col = gOverlaps[i];
             Vector2 n2o = (Vector2)col.transform.position - position;
             n2o = n2o.normalized;
 

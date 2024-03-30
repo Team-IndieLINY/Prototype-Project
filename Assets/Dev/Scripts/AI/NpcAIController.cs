@@ -29,6 +29,7 @@ public class NpcAIController : MonoBehaviour
         _board.Param = new PrototypeAIStateMachine.PatrollParam()
         {
         };
+        
     }
 
     private void Update()
