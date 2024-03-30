@@ -9,7 +9,7 @@ using UnityEngine;
 /// 인벤토리 연계 알아서 하도록
 /// </summary>
 [RequireComponent(typeof(SpriteRenderer))]
-public class ItemBox : MonoBehaviour, IBObjectItemBox
+public class ItemBox : MonoBehaviour, IBObjectItemBox, IBObejctHighlight
 {
     [SerializeField] private Sprite _opend;
     [SerializeField] private Sprite _closed;
@@ -17,6 +17,8 @@ public class ItemBox : MonoBehaviour, IBObjectItemBox
     
     [SerializeField] private float _openDelaySec;
     [SerializeField] private List<ItemBoxSlot> _items;
+
+    [SerializeField] private SpriteRenderer _outlineRenderer;
     public CollisionInteraction Interaction { get; private set; }
     
     public bool IsOpened { get; private set; }
@@ -54,7 +56,83 @@ public class ItemBox : MonoBehaviour, IBObjectItemBox
         if (Interaction.TryGetContractInfo(out ObjectContractInfo info))
         {
             info.AddBehaivour<IBObjectItemBox>(this);
+            info.AddBehaivour<IBObejctHighlight>(this);
         }
     }
-    
+
+    private void Update()
+    {
+        _outlineRenderer.sortingOrder = _renderer.sortingOrder;
+        var c = _outlineRenderer.color;
+        c.a = _renderer.color.a;
+        _outlineRenderer.color = c;
+
+    }
+
+    public bool CanInteractable { get; set; } = true;
+
+    public bool Highlight
+    {
+        get
+        {
+            if (_outlineRenderer)
+            {
+                return _outlineRenderer.enabled;
+            }
+
+            return false;
+        }
+
+        set
+        {
+            if (CanInteractable == false) return;
+            
+            if (_outlineRenderer)
+            {
+                _outlineRenderer.enabled = value;
+            }
+        }
+    }
+
+    private IEnumerator _co;
+    private IEnumerator CoUpdate()
+    {
+        var wait = new WaitForEndOfFrame();
+        
+        while (true)
+        {
+            if (Highlight)
+            {
+                yield return wait;
+                yield return wait;
+                yield return wait;
+                Highlight = false;
+            }
+            else
+            {
+                yield return wait;
+            }
+        }
+    }
+    public bool IsResetNextFrame
+    {
+        get => _co != null;
+        set
+        {
+            if (CanInteractable == false) return;
+            
+            if (value)
+            {
+                if (_co == null)
+                {
+                    StartCoroutine(_co = CoUpdate());
+                }
+            }
+            else
+            {
+                StopCoroutine(_co);
+                _co = null;
+            }
+        }
+    }
 }

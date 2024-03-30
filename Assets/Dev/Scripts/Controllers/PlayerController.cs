@@ -105,10 +105,7 @@ public class PlayerController : MonoBehaviour
 
     private void WorldInteraction()
     {
-        if (Input.GetKeyDown(KeyCode.F) == false) return;
-        
         var cols = Physics2D.OverlapCircleAll(transform.position, ItemCollectRadius);
-
         Collider2D collider = null;
         float dis = Mathf.Infinity;
         foreach (var col in cols)
@@ -124,17 +121,31 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-
         if (collider == null) return;
+        
+        
         if (collider.TryGetComponent<CollisionInteraction>(out var ttInteraction))
         {
-            if(ttInteraction.TryGetContractInfo(out ObjectContractInfo objInfo))
+            ObjectContractInfo objInfo = null;
+            // 키 누르지 않아도 작동되는 코드
+            if(ttInteraction.TryGetContractInfo(out objInfo))
+            {
+                if (objInfo.TryGetBehaviour(out IBObejctHighlight highlight))
+                {
+                    highlight.Highlight = true;
+                    highlight.IsResetNextFrame = true;
+                }
+            }
+            
+            // 키 눌러야 작동되는 코드
+            if (Input.GetKeyDown(KeyCode.F) == false) return;
+            if(ttInteraction.TryGetContractInfo(out objInfo))
             {
                 if (objInfo.TryGetBehaviour(out IBObjectFieldItem item))
                 {
                     DoInteractFieldItem(item);
                 }
-                else if (objInfo.TryGetBehaviour(out IBObjectItemBox itemBox))
+                if (objInfo.TryGetBehaviour(out IBObjectItemBox itemBox))
                 {
                     IsStopped = true;
                     itemBox.Open().ContinueWith(DoInteractItemBox);

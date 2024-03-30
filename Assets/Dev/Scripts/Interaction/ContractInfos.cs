@@ -30,3 +30,10 @@ public interface IBObjectItemBox : IObjectBehaviour
     public UniTask<List<ItemBoxSlot>> Open();
     public float OpenDelaySec { get; }
 }
+
+public interface IBObejctHighlight : IObjectBehaviour
+{
+    public bool CanInteractable { get; set; }
+    public bool Highlight { get; set; }
+    public bool IsResetNextFrame { get; set; }
+}
