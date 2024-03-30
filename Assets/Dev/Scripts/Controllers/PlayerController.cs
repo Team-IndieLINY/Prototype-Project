@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using IndieLINY.Event;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -30,6 +31,8 @@ public class PlayerController : MonoBehaviour
     public Rigidbody2D Rigid2D;
     public PlayerInventory Inventory;
     public SteminaController Stemina { get; private set; }
+
+    public bool IsStopped { get; set; }
 
     private void Awake()
     {
@@ -113,28 +116,49 @@ public class PlayerController : MonoBehaviour
             if (col.TryGetComponent<CollisionInteraction>(out var tInteraction))
             {
                 if (tInteraction == this.Interaction) continue;
-            }
-            float tempDis = Vector2.Distance(col.transform.position, transform.position);
-            if (tempDis <= dis)
-            {
-                collider = col;
-                dis = tempDis;
+                float tempDis = Vector2.Distance(col.transform.position, transform.position);
+                if (tempDis <= dis)
+                {
+                    collider = col;
+                    dis = tempDis;
+                }
             }
         }
 
         if (collider == null) return;
         if (collider.TryGetComponent<CollisionInteraction>(out var ttInteraction))
         {
-            if(ttInteraction.TryGetContractInfo(out ObjectContractInfo objInfo) &&
-               objInfo.TryGetBehaviour(out IBObjectFieldItem item))
+            if(ttInteraction.TryGetContractInfo(out ObjectContractInfo objInfo))
             {
-                DoInteractFieldItem(item);
+                if (objInfo.TryGetBehaviour(out IBObjectFieldItem item))
+                {
+                    DoInteractFieldItem(item);
+                }
+                else if (objInfo.TryGetBehaviour(out IBObjectItemBox itemBox))
+                {
+                    IsStopped = true;
+                    itemBox.Open().ContinueWith(DoInteractItemBox);
+                }
             }
             else if (ttInteraction.TryGetContractInfo(out ActorContractInfo actorInfo) &&
                      actorInfo.TryGetBehaviour<IBActorStemina>(out var stemina))
             {
                 DoInteractNPC(stemina);
             }
+        }
+    }
+
+    /// <summary>
+    /// 인벤토리 연계는 이쪽에서 하길 바람
+    /// 플레이어가 상자를 열었을 때, 상자에 들어있는 아이템을 넘겨받음
+    /// </summary>
+    /// <param name="itemList"></param>
+    private void DoInteractItemBox(List<ItemBoxSlot> itemList)
+    {
+        IsStopped = false;
+        foreach (var item in itemList)
+        {
+            print(item.Item.name);
         }
     }
 
@@ -155,6 +179,8 @@ public class PlayerController : MonoBehaviour
     
     private void Move()
     {
+        if (IsStopped) return;
+        
         var dir = new Vector2()
         {
             x = Input.GetAxisRaw("Horizontal"),

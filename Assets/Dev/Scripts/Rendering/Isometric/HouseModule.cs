@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -21,41 +22,53 @@ public class HouseModule : MonoBehaviour
     {
         var objects = GetComponentsInChildren<OrderedObject>(true);
 
+        var myCom = GetComponent<OrderedObject>();
+
+        if (myCom)
+        {
+            Add(myCom);
+        }
+        
         foreach (var obj in objects)
         {
             if (obj == false) continue;
 
-            List<SpriteRenderer> addingArray = null;
-
-            switch (obj.Type)
-            {
-                case EOrderedObjectType.Front:
-                    addingArray = fronts;
-                    break;
-                case EOrderedObjectType.FrontCollision:
-                    addingArray = fronts_collider;
-                    break;
-                case EOrderedObjectType.Back:
-                    addingArray = backs;
-                    break;
-                case EOrderedObjectType.BackCollision:
-                    addingArray = backs_collider;
-                    break;
-                case EOrderedObjectType.Floor:
-                    addingArray = floors;
-                    break;
-                case EOrderedObjectType.Stair:
-                    break;
-                case EOrderedObjectType.Inner:
-                    addingArray = inners;
-                    break;
-                default:
-                    Debug.Assert(false);
-                    break;
-            }
-            
-            Debug.Assert(addingArray != null) ;
-            addingArray.Add(obj.Renderer);
+            Add(obj);
         }
+    }
+
+    private void Add(OrderedObject obj)
+    {
+        List<SpriteRenderer> addingArray = null;
+
+        switch (obj.Type)
+        {
+            case EOrderedObjectType.Front:
+                addingArray = fronts;
+                break;
+            case EOrderedObjectType.FrontCollision:
+                addingArray = fronts_collider;
+                break;
+            case EOrderedObjectType.Back:
+                addingArray = backs;
+                break;
+            case EOrderedObjectType.BackCollision:
+                addingArray = backs_collider;
+                break;
+            case EOrderedObjectType.Floor:
+                addingArray = floors;
+                break;
+            case EOrderedObjectType.Stair:
+                break;
+            case EOrderedObjectType.Inner:
+                addingArray = inners;
+                break;
+            default:
+                Debug.Assert(false);
+                break;
+        }
+            
+        Debug.Assert(addingArray != null) ;
+        addingArray.Add(obj.Renderer);
     }
 }
