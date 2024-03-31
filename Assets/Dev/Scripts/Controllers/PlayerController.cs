@@ -34,6 +34,9 @@ public class PlayerController : MonoBehaviour
 
     public bool IsStopped { get; set; }
 
+    [SerializeField]
+    private ItemBoxInventory _itemBoxInventory;
+
     private void Awake()
     {
         Interaction = GetComponentInChildren<CollisionInteraction>();
@@ -97,11 +100,13 @@ public class PlayerController : MonoBehaviour
             if (isOpen)
             {
                 PlayerInventory.Instance.CloseInventory();
+                _itemBoxInventory.CloseInventory();
                 isOpen = false;
             }
             else
             {
                 PlayerInventory.Instance.OpenInventory();
+                _itemBoxInventory.OpenInventory();
                 isOpen = true;
             }
 

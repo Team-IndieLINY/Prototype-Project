@@ -31,12 +31,11 @@ public class ItemBoxInventory : MonoBehaviour
     private void Awake()
     {
         Configure();
-
-        Test1();
     }
     
     public void OpenInventory()
     {
+        Test1(); //아이템 박스에서 아이템 로딩하는 함수
         _inventoryContainer.style.visibility = Visibility.Visible;
 
         foreach (var item in _storedItems)
@@ -53,6 +52,8 @@ public class ItemBoxInventory : MonoBehaviour
         }
         
         _inventoryContainer.style.visibility = Visibility.Hidden;
+        
+        ResetInventory();
     }
 
     public void AddItemToInventory(ItemDefinition item)
@@ -170,13 +171,22 @@ public class ItemBoxInventory : MonoBehaviour
             ConfigureInventoryItem(loadedItem, inventoryItemVisual);
         }
     }
+    
+    private void ResetInventory()
+    {
+        foreach (var storedItem in _storedItems)
+        {
+            _inventoryGrid.Remove(storedItem.RootVisual);
+        }
+        // _storedItems.Clear();
+    }
 
     private void AddItemToInventoryGrid(VisualElement item) => _inventoryGrid.Add(item);
     private void RemoveItemFromInventoryGrid(VisualElement item) => _inventoryGrid.Remove(item);
     private static void ConfigureInventoryItem(StoredItem item, ItemVisual visual)
     {
         item.RootVisual = visual;
-        visual.style.visibility = Visibility.Visible;
+        visual.style.visibility = Visibility.Hidden;
     }
 
     private void OnClickTakeButton(ClickEvent evt)
