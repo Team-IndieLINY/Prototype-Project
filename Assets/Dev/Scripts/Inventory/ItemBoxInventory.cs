@@ -42,8 +42,6 @@ public class ItemBoxInventory : MonoBehaviour
         {
             Destroy(this);
         }
-        
-        Configure();
     }
     
     public async void OpenInventory(List<StoredItem> storedItems)
@@ -213,5 +211,6 @@ public class ItemBoxInventory : MonoBehaviour
     {
         PlayerInventory.Instance.AddItemToInventory(ItemSelector.Instance.SelectingItem);
         RemoveItemToInventory(ItemSelector.Instance.SelectingItem);
+        ItemSelector.Instance.SetSelectingItem(null);
     }
 }

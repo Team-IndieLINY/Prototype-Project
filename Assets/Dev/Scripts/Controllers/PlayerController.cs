@@ -193,12 +193,16 @@ public class PlayerController : MonoBehaviour
         Inventory.OpenInventory();
         
         _itemBoxInventory.CloseInventory();
+
+        List<StoredItem> storedItems = new List<StoredItem>();
         foreach (var item in itemList)
         {
-            _itemBoxInventory.AddItemToInventory(item);
+            StoredItem storedItem = new StoredItem();
+            storedItem.Details = item;
+            storedItems.Add(storedItem);
         }
 
-        _itemBoxInventory.OpenInventory(new());
+        _itemBoxInventory.OpenInventory(storedItems);
     }
 
     private void DoInteractFieldItem(IBObjectFieldItem item)
