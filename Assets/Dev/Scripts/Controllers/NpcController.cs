@@ -6,20 +6,22 @@ using UnityEngine;
 
 public class NpcController : MonoBehaviour
 {
-    
+    [SerializeField] private SteminaView _steminaView;
+    [SerializeField] private ActorSteminaData _data;
     [SerializeField] private ScriptView _scriptView;
     [SerializeField] private ScriptController _scriptController;
     [SerializeField] private ScriptData _scriptModel;
     [SerializeField] private GameObject _tomb;
 
     [SerializeField] private CollisionInteraction _interaction;
-    [SerializeField] private SteminaController _steminaController;
-    
     public CollisionInteraction Interaction => _interaction;
-    public SteminaController Stemina => _steminaController;
+    
+    public SteminaController Stemina { get; private set; }
 
     private void Awake()
     {
+        Stemina = new SteminaController(Interaction, _steminaView, _data);
+        
         Interaction.SetContractInfo(ActorContractInfo.Create(
             transform,
             () => gameObject == false)
@@ -32,22 +34,25 @@ public class NpcController : MonoBehaviour
                 ;
         }
 
+        StartCoroutine(Stemina.UpdatePerSec());
+
         Stemina.OnEaten += OnEaten;
+        
+        _tomb.SetActive(false);
 
         _scriptModel = _scriptModel.Clone();
-        _scriptController = new ScriptController(_scriptModel, _scriptView, Stemina.StatProperties);
+        _scriptController = new ScriptController(_scriptModel, _scriptView, Stemina.Properties, _data);
     }
 
     private void Update()
     {
-        //TODO: 체력이 0 일 때 처리
-    }
-
-    private void OnDestroy()
-    {
-        var obj = Instantiate(_tomb);
-        obj.SetActive(true);
-        obj.transform.position = transform.position;
+        if (Stemina.Properties.GetValue<int>(EStatCode.Health) <= 0)
+        {
+            var obj = Instantiate(_tomb);
+            obj.SetActive(true);
+            obj.transform.position = transform.position;    
+            Destroy(gameObject);
+        }
     }
 
     private void OnEaten(SteminaController controller)

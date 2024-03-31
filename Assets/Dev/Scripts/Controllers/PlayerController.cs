@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using IndieLINY.Event;
 using UnityEngine;
@@ -90,21 +91,22 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private bool isOpen = false;
+    private bool _isOpen = false;
     private void SelfInteraction()
     {
         
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            if (isOpen)
+            if (_isOpen)
             {
                 PlayerInventory.Instance.CloseInventory();
-                isOpen = false;
+                ItemBoxInventory.Instance.CloseInventory();
+                _isOpen = false;
             }
             else
             {
                 PlayerInventory.Instance.OpenInventory();
-                isOpen = true;
+                _isOpen = true;
             }
 
         }
@@ -149,7 +151,7 @@ public class PlayerController : MonoBehaviour
             // 키 누르지 않아도 작동되는 코드
             if(ttInteraction.TryGetContractInfo(out objInfo))
             {
-                if (objInfo.TryGetBehaviour(out IBObejctHighlight highlight))
+                if (objInfo.TryGetBehaviour(out IBObjectHighlight highlight))
                 {
                     highlight.Highlight = true;
                     highlight.IsResetNextFrame = true;
@@ -183,13 +185,20 @@ public class PlayerController : MonoBehaviour
     /// 플레이어가 상자를 열었을 때, 상자에 들어있는 아이템을 넘겨받음
     /// </summary>
     /// <param name="itemList"></param>
-    private void DoInteractItemBox(List<ItemBoxSlot> itemList)
+    private void DoInteractItemBox(List<ItemDefinition> itemList)
     {
         IsStopped = false;
+
+        _isOpen = true;
+        Inventory.OpenInventory();
+        
+        _itemBoxInventory.CloseInventory();
         foreach (var item in itemList)
         {
-            print(item.Item.name);
+            _itemBoxInventory.AddItemToInventory(item);
         }
+
+        _itemBoxInventory.OpenInventory(new());
     }
 
     private void DoInteractFieldItem(IBObjectFieldItem item)

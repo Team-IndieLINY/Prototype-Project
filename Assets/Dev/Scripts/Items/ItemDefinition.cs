@@ -8,6 +8,10 @@ public class ItemDefinition : ScriptableObject
     public string Description;
     public Sprite Icon;
     public Dimensions SlotDimension;
+
+    public int FillFood;
+    public int FillHealth;
+    public int FillThirsty;
 }
 [Serializable]
 public struct Dimensions
