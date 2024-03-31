@@ -10,6 +10,8 @@ using UnityEngine.UIElements;
 
 public class ItemBoxInventory : MonoBehaviour
 {
+    public static ItemBoxInventory Instance;
+    
     private VisualElement _root;
     private VisualElement _inventoryContainer;
     private VisualElement _inventoryGrid;
@@ -18,6 +20,7 @@ public class ItemBoxInventory : MonoBehaviour
     private static Label _itemDetailHeader;
     private static Label _itemDetailBody;
     private bool _isInventoryReady;
+    private bool _isInventoryLoading;
 
     [FormerlySerializedAs("ItemBoxItems")]
     public List<StoredItem> _itemBoxItems = new List<StoredItem>();
@@ -30,12 +33,22 @@ public class ItemBoxInventory : MonoBehaviour
     
     private void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+            Configure();
+        }
+        else if (Instance != this)
+        {
+            Destroy(this);
+        }
+        
         Configure();
     }
     
-    public void OpenInventory()
+    public async void OpenInventory(List<StoredItem> storedItems)
     {
-        Test1(); //아이템 박스에서 아이템 로딩하는 함수
+        await LoadInventory(storedItems);
         _inventoryContainer.style.visibility = Visibility.Visible;
 
         foreach (var item in _storedItems)
@@ -145,15 +158,11 @@ public class ItemBoxInventory : MonoBehaviour
         element.style.left = vector.x;
         element.style.top = vector.y;
     }
-
-    private void Test1()
-    {
-        LoadInventory(_itemBoxItems);
-    }
     
-    private async void LoadInventory(List<StoredItem> itemBoxStoredItems)
+    private async Task LoadInventory(List<StoredItem> itemBoxStoredItems)
     {
         await UniTask.WaitUntil(() => _isInventoryReady);
+        
         foreach (StoredItem loadedItem in itemBoxStoredItems)
         {
             _storedItems.Add(loadedItem);
@@ -161,6 +170,7 @@ public class ItemBoxInventory : MonoBehaviour
             ItemVisual inventoryItemVisual = new ItemVisual(loadedItem.Details);
             
             AddItemToInventoryGrid(inventoryItemVisual);
+
             bool inventoryHasSpace = await GetPositionForItem(inventoryItemVisual);
             if (!inventoryHasSpace)
             {
@@ -174,11 +184,21 @@ public class ItemBoxInventory : MonoBehaviour
     
     private void ResetInventory()
     {
-        foreach (var storedItem in _storedItems)
+        int index = 0;
+
+        while (index < _inventoryGrid.childCount)
         {
-            _inventoryGrid.Remove(storedItem.RootVisual);
+            if (_inventoryGrid[index] is ItemVisual)
+            {
+                _inventoryGrid.RemoveAt(index);
+            }
+            else
+            {
+                index++;
+            }
         }
-        // _storedItems.Clear();
+        
+        _storedItems.Clear();
     }
 
     private void AddItemToInventoryGrid(VisualElement item) => _inventoryGrid.Add(item);

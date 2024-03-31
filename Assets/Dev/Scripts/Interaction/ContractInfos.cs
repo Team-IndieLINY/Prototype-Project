@@ -15,9 +15,3 @@ public interface IBObjectFieldItem : IObjectBehaviour
     public ItemDefinition Item { get; }
     public void Collect();
 }
-
-public interface IBObjectItemBox : IObjectBehaviour
-{
-    public List<ItemDefinition> Items { get; }
-    public void Open();
-}
