@@ -1,18 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
-
-public class ItemDefinition : MonoBehaviour
+[CreateAssetMenu(fileName ="New Item", menuName ="Data/Item")]
+public class ItemDefinition : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public string ID = Guid.NewGuid().ToString();
+    public string FriendlyName;
+    public string Description;
+    public Sprite Icon;
+    public Dimensions SlotDimension;
+}
+[Serializable]
+public struct Dimensions
+{
+    public int Height;
+    public int Width;
 }

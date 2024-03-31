@@ -80,6 +80,7 @@ public class PlayerController : MonoBehaviour
 
         WorldInteraction();
         SelfInteraction();
+        ItemBoxInteraction();
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -87,10 +88,26 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private bool isOpen = false;
     private void SelfInteraction()
     {
-        if (Input.GetKeyDown(KeyCode.E) == false) return;
         
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (isOpen)
+            {
+                PlayerInventory.Instance.CloseInventory();
+                isOpen = false;
+            }
+            else
+            {
+                PlayerInventory.Instance.OpenInventory();
+                isOpen = true;
+            }
+
+        }
+        
+        if (Input.GetKeyDown(KeyCode.E) == false) return;
         // if(Inventory.Cursor.TryGetItem(out var item))
         // {
         //     Inventory.RemoveItem(item);
@@ -103,6 +120,40 @@ public class PlayerController : MonoBehaviour
         // }
     }
 
+    private void ItemBoxInteraction()
+    {
+        if (Input.GetKey(KeyCode.F) == false) return;
+        
+        var cols = Physics2D.OverlapCircleAll(transform.position, ItemCollectRadius);
+        Collider2D collider = null;
+        float dis = Mathf.Infinity;
+        
+        foreach (var col in cols)
+        {
+            if (col.TryGetComponent<CollisionInteraction>(out var tInteraction))
+            {
+                if (tInteraction == this.Interaction) continue;
+            }
+
+            float tempDis = Vector2.Distance(col.transform.position, transform.position);
+            if (tempDis <= dis)
+            {
+                collider = col;
+                dis = tempDis;
+            }
+        }
+
+        if (collider == null) return;
+
+        if (collider.TryGetComponent<CollisionInteraction>(out var ttInteraction))
+        {
+            if(ttInteraction.TryGetContractInfo(out ObjectContractInfo objInfo) &&
+               objInfo.TryGetBehaviour(out IBObjectItemBox itemBox))
+            {
+                DoInteractItemBox(itemBox);
+            }
+        }
+    }
     private void WorldInteraction()
     {
         var cols = Physics2D.OverlapCircleAll(transform.position, ItemCollectRadius);
@@ -175,7 +226,7 @@ public class PlayerController : MonoBehaviour
 
     private void DoInteractFieldItem(IBObjectFieldItem item)
     {
-        // Inventory.AddItem(item.Item);
+        PlayerInventory.Instance.AddItemToInventory(item.Item);
         item.Collect();
     }
 

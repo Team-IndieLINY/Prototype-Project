@@ -1,46 +1,45 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UIElements;
 
-public sealed class PlayerInventory : MonoBehaviour
+public class ItemBoxInventory : MonoBehaviour
 {
-    public static PlayerInventory Instance;
-    private VisualElement m_Root;
-    private VisualElement m_InventoryContainer;
-    private VisualElement m_InventoryGrid;
-    private static Label m_ItemDetailHeader;
-    private static Label m_ItemDetailBody;
-    private bool m_IsInventoryReady;
-    public List<StoredItem> StoredItems = new List<StoredItem>();
-    public Dimensions InventoryDimensions;
+    private VisualElement _root;
+    private VisualElement _inventoryContainer;
+    private VisualElement _inventoryGrid;
+    private Button _takeButton;
+    private Button _takeAllButton;
+    private static Label _itemDetailHeader;
+    private static Label _itemDetailBody;
+    private bool _isInventoryReady;
+
+    [FormerlySerializedAs("ItemBoxItems")]
+    public List<StoredItem> _itemBoxItems = new List<StoredItem>();
+    
+    [FormerlySerializedAs("StoredItems")]
+    private List<StoredItem> _storedItems = new List<StoredItem>();
+    [FormerlySerializedAs("InventoryDimensions")]
+    public Dimensions inventoryDimensions;
     public static Dimensions SlotDimension { get; private set; }
     
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            Configure();
-        }
-        else if (Instance != this)
-        {
-            Destroy(this);
-        }
-    }
+        Configure();
 
-    private void Start()
-    {
-        LoadInventory();
+        Test1();
     }
     
     public void OpenInventory()
     {
-        m_InventoryContainer.style.visibility = Visibility.Visible;
+        _inventoryContainer.style.visibility = Visibility.Visible;
 
-        foreach (var item in StoredItems)
+        foreach (var item in _storedItems)
         {
             item.RootVisual.style.visibility = Visibility.Visible;
         }
@@ -48,48 +47,34 @@ public sealed class PlayerInventory : MonoBehaviour
 
     public void CloseInventory()
     {
-        foreach (var item in StoredItems)
+        foreach (var item in _storedItems)
         {
             item.RootVisual.style.visibility = Visibility.Hidden;
         }
         
-        m_InventoryContainer.style.visibility = Visibility.Hidden;
+        _inventoryContainer.style.visibility = Visibility.Hidden;
     }
 
-    public async void AddItemToInventory(ItemDefinition item)
+    public void AddItemToInventory(ItemDefinition item)
     {
-        if (item == null)
-        {
-            return;
-        }
-        
         StoredItem storedItem = new StoredItem();
         storedItem.Details = item;
 
         ItemVisual itemVisual = new ItemVisual(item);
+        ConfigureInventoryItem(storedItem, itemVisual);
         
         AddItemToInventoryGrid(itemVisual);
         
-        bool inventoryHasSpace = await GetPositionForItem(itemVisual);
-        if (!inventoryHasSpace)
-        {
-            Debug.Log("No space - Cannot pick up the item");
-            RemoveItemFromInventoryGrid(itemVisual);
-        }
-        
-        ConfigureInventoryItem(storedItem, itemVisual);
-        
-        itemVisual.style.visibility = Visibility.Visible;
         //꽉 찾을 때 처리해야함
         
-        StoredItems.Add(storedItem);
+        _storedItems.Add(storedItem);
     }
     
     public void RemoveItemToInventory(ItemDefinition item)
     {
         StoredItem removedStoredItem = null;
         
-        foreach (var storedItem in StoredItems)
+        foreach (var storedItem in _storedItems)
         {
             if (storedItem.Details.Equals(item))
             {
@@ -101,25 +86,30 @@ public sealed class PlayerInventory : MonoBehaviour
 
         if (removedStoredItem != null)
         {
-            StoredItems.Remove(removedStoredItem);
+            _storedItems.Remove(removedStoredItem);
         }
     }
     
     private async void Configure()
     {
-        m_Root = GetComponent<UIDocument>().rootVisualElement;
-        m_InventoryContainer = m_Root.Q<VisualElement>("Container");
-        m_InventoryGrid = m_Root.Q<VisualElement>("Grid");
+        _root = GetComponent<UIDocument>().rootVisualElement;
+        _inventoryContainer = _root.Q<VisualElement>("Container");
+        _inventoryGrid = _root.Q<VisualElement>("Grid");
+        _takeButton = _root.Q<Button>("TakeButton");
+        _takeAllButton = _root.Q<Button>("TakeAllButton");
+        
+        _takeButton.RegisterCallback<ClickEvent>(OnClickTakeButton);
+        
         // VisualElement itemDetails = m_Root.Q<VisualElement>("ItemDetails");
         // m_ItemDetailHeader = itemDetails.Q<Label>("Header");
         // m_ItemDetailBody = itemDetails.Q<Label>("Body");
         await UniTask.WaitForEndOfFrame();
         ConfigureSlotDimensions();
-        m_IsInventoryReady = true;
+        _isInventoryReady = true;
     }
     private void ConfigureSlotDimensions()
     {
-        VisualElement firstSlot = m_InventoryGrid.Children().First();
+        VisualElement firstSlot = _inventoryGrid.Children().First();
         SlotDimension = new Dimensions
         {
             Width = Mathf.RoundToInt(firstSlot.worldBound.width),
@@ -129,15 +119,15 @@ public sealed class PlayerInventory : MonoBehaviour
     
     private async Task<bool> GetPositionForItem(VisualElement newItem)
     {
-        for (int y = 0; y < InventoryDimensions.Height; y++)
+        for (int y = 0; y < inventoryDimensions.Height; y++)
         {
-            for (int x = 0; x < InventoryDimensions.Width; x++)
+            for (int x = 0; x < inventoryDimensions.Width; x++)
             {
                 //try position
                 SetItemPosition(newItem, new Vector2(SlotDimension.Width * x, 
                     SlotDimension.Height * y));
                 await UniTask.WaitForEndOfFrame();
-                StoredItem overlappingItem = StoredItems.FirstOrDefault(s => 
+                StoredItem overlappingItem = _storedItems.FirstOrDefault(s => 
                     s.RootVisual != null && 
                     s.RootVisual.layout.Overlaps(newItem.layout));
                 //Nothing is here! Place the item.
@@ -154,12 +144,19 @@ public sealed class PlayerInventory : MonoBehaviour
         element.style.left = vector.x;
         element.style.top = vector.y;
     }
-    
-    private async void LoadInventory()
+
+    private void Test1()
     {
-        await UniTask.WaitUntil(() => m_IsInventoryReady);
-        foreach (StoredItem loadedItem in StoredItems)
+        LoadInventory(_itemBoxItems);
+    }
+    
+    private async void LoadInventory(List<StoredItem> itemBoxStoredItems)
+    {
+        await UniTask.WaitUntil(() => _isInventoryReady);
+        foreach (StoredItem loadedItem in itemBoxStoredItems)
         {
+            _storedItems.Add(loadedItem);
+            
             ItemVisual inventoryItemVisual = new ItemVisual(loadedItem.Details);
             
             AddItemToInventoryGrid(inventoryItemVisual);
@@ -174,11 +171,17 @@ public sealed class PlayerInventory : MonoBehaviour
         }
     }
 
-    private void AddItemToInventoryGrid(VisualElement item) => m_InventoryGrid.Add(item);
-    private void RemoveItemFromInventoryGrid(VisualElement item) => m_InventoryGrid.Remove(item);
+    private void AddItemToInventoryGrid(VisualElement item) => _inventoryGrid.Add(item);
+    private void RemoveItemFromInventoryGrid(VisualElement item) => _inventoryGrid.Remove(item);
     private static void ConfigureInventoryItem(StoredItem item, ItemVisual visual)
     {
         item.RootVisual = visual;
-        visual.style.visibility = Visibility.Hidden;
+        visual.style.visibility = Visibility.Visible;
+    }
+
+    private void OnClickTakeButton(ClickEvent evt)
+    {
+        PlayerInventory.Instance.AddItemToInventory(ItemSelector.Instance.SelectingItem);
+        RemoveItemToInventory(ItemSelector.Instance.SelectingItem);
     }
 }
