@@ -143,6 +143,7 @@ public class ItemBoxInventory : MonoBehaviour
         _takeAllButton = _root.Q<Button>("TakeAllButton");
         
         _takeButton.RegisterCallback<ClickEvent>(OnClickTakeButton);
+        _takeAllButton.RegisterCallback<ClickEvent>(OnClickTakeAllButton);
         
         // VisualElement itemDetails = m_Root.Q<VisualElement>("ItemDetails");
         // m_ItemDetailHeader = itemDetails.Q<Label>("Header");
@@ -243,6 +244,17 @@ public class ItemBoxInventory : MonoBehaviour
     {
         PlayerInventory.Instance.AddItemToInventory(ItemSelector.Instance.SelectingItem);
         RemoveItemToInventory(ItemSelector.Instance.SelectingItem);
+        ItemSelector.Instance.SetSelectingItem(null);
+    }
+
+    private void OnClickTakeAllButton(ClickEvent evt)
+    {
+        while(_storedItems.Count > 0)
+        {
+            PlayerInventory.Instance.AddItemToInventory(_storedItems.First().Details);
+            RemoveItemToInventory(_storedItems.First().Details);
+        }
+        
         ItemSelector.Instance.SetSelectingItem(null);
     }
 }
