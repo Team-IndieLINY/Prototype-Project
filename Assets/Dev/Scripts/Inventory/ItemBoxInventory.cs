@@ -22,9 +22,6 @@ public class ItemBoxInventory : MonoBehaviour
     private bool _isInventoryReady;
     private bool _isInventoryLoading;
     private ItemBox _targetItemBox;
-
-    [FormerlySerializedAs("ItemBoxItems")]
-    public List<StoredItem> _itemBoxItems = new List<StoredItem>();
     
     [FormerlySerializedAs("StoredItems")]
     private List<StoredItem> _storedItems = new List<StoredItem>();
@@ -126,6 +123,14 @@ public class ItemBoxInventory : MonoBehaviour
         if (removedStoredItem != null)
         {
             _storedItems.Remove(removedStoredItem);
+        }
+    }
+
+    public void UnhighlightAllItem()
+    {
+        foreach (var storedItem in _storedItems)
+        {
+            storedItem.RootVisual.RemoveFromClassList("visual-icon-container-highlighted");
         }
     }
     

@@ -22,7 +22,7 @@
                 </ui:VisualElement>
                 <ui:VisualElement name="ButtonGroup" style="flex-grow: 1; flex-direction: row;">
                     <ui:Button text="Take" parse-escape-sequences="true" display-tooltip-when-elided="true" name="TakeButton" style="font-size: 35px;" />
-                    <ui:Button text="Take All" parse-escape-sequences="true" display-tooltip-when-elided="true" name="TakeAllButton" style="font-size: 35px;" />
+                    <ui:Button text="Take All" parse-escape-sequences="true" display-tooltip-when-elided="true" name="TakeAllButton" style="font-size: 35px; display: flex; visibility: hidden;" />
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>

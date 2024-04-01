@@ -11,6 +11,27 @@
     visibility: visible;
 }
 
+.visual-icon-container-highlighted {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    padding: 15px;
+    background-color: rgb(14, 14, 14);
+    border-width: 1px;
+    border-color: rgb(75, 75, 75);
+    padding-top: 15px;
+    flex-grow: 0;
+    visibility: visible;
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
+    border-top-width: 4px;
+    border-right-width: 4px;
+    border-bottom-width: 4px;
+    border-left-width: 4px;
+}
+
 .visual-icon {
     height: 100%;
     width: 100%;

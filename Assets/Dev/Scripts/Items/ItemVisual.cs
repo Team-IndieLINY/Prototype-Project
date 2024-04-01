@@ -41,11 +41,14 @@ public class ItemVisual : VisualElement
             Debug.Log("m_Item is null");
             return;
         }
-        else
+
+        if (panel.visualTree.name != "ItemBoxInventoryPanelSetting")
         {
-            Debug.Log("m_Item is not null");
+            return;
         }
         
+        ItemBoxInventory.Instance.UnhighlightAllItem();
+        AddToClassList("visual-icon-container-highlighted");
         ItemSelector.Instance.SetSelectingItem(m_Item);
     }
 }
