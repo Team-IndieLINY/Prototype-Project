@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using IndieLINY.Event;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// 인벤토리 연계 알아서 하도록
@@ -11,6 +13,8 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public class ItemBox : MonoBehaviour, IBObjectItemBox, IBObjectHighlight
 {
+    [SerializeField] private Image _progress;
+    
     [SerializeField] private Sprite _opend;
     [SerializeField] private Sprite _closed;
     [SerializeField] private SpriteRenderer _renderer;
@@ -27,15 +31,46 @@ public class ItemBox : MonoBehaviour, IBObjectItemBox, IBObjectHighlight
     /// Task가 완료되면 상자가 열린 것.
     /// UniTask는 메인스레드에서 돌아가므로 비동기 관련 문제는 걱정하지 말길 바람
     /// </summary>
-    public async UniTask<ItemBox> Open()
+    public async UniTask<ItemBox> Open(CancellationTokenSource source)
     {
         if (IsOpened) return this;
+
+        await CoOpen(source, OpenDelaySec).ToUniTask(coroutineRunner: this);
+
+        if (source != null && source.IsCancellationRequested)
+        {
+            return null;
+        }
         
-        await UniTask.Delay((int)(OpenDelaySec * 1000f));
         _renderer.sprite = _opend;
 
         IsOpened = true;
         return this;
+    }
+
+    private IEnumerator CoOpen(CancellationTokenSource source, float delay)
+    {
+        if (_progress == false) yield break;
+
+        var wait = new WaitForEndOfFrame();
+        float timer = 0f;
+        _progress.gameObject.SetActive(true);
+        var bar = _progress.transform.GetChild(0).GetComponentInChildren<Image>();
+        
+        
+        while (timer < delay)
+        {
+            if (source.Token.IsCancellationRequested)
+            {
+                break;
+            }
+            bar.fillAmount = 1f - (timer / delay);
+            timer += Time.deltaTime;
+            
+            yield return wait;
+        }
+        
+        _progress.gameObject.SetActive(false);
     }
 
     public List<ItemDefinition> Items => _items;
@@ -46,6 +81,11 @@ public class ItemBox : MonoBehaviour, IBObjectItemBox, IBObjectHighlight
         if (_renderer == false)
         {
             _renderer = GetComponent<SpriteRenderer>();
+        }
+
+        if (_progress)
+        {
+            _progress.gameObject.SetActive(false);
         }
 
         _renderer.sprite = _closed;

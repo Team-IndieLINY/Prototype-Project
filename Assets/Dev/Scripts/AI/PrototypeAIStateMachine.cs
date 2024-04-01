@@ -216,7 +216,8 @@ public static class PrototypeAIStateMachine
                 {   
                     CurrentPointIndex = board.PatrollPoints.FindIndex(x=>x == point)
                 },
-                Internval = board.WaitSecAfterLastSighting
+                Internval = board.WaitSecAfterLastSighting,
+                InterupptWithFindingPlayer = true
             };
 
 
@@ -248,7 +249,9 @@ public static class PrototypeAIStateMachine
         if (param.Target.Interaction.TryGetContractInfo(out ActorContractInfo info) &&
             info.TryGetBehaviour(out IBActorStemina stemina))
         {
-            stemina.Properties.SetValue(EStatCode.Health, 0);
+            var r = stemina.Properties.GetRef<int>(EStatCode.Health);
+
+            r.Value -= 50;
         }
         
         board.Flip = PrototypeAIUtil.IsFlip(controller.transform.position, param.Target.transform.position);
@@ -270,6 +273,7 @@ public static class PrototypeAIStateMachine
         public State NextState;
         public NpcAIStateParam NextParam;
         public float Internval;
+        public bool InterupptWithFindingPlayer;
 
         public float Timer;
     }
@@ -285,21 +289,24 @@ public static class PrototypeAIStateMachine
         Debug.Assert(param.NextState != null);
         
         controller.Renderer.sprite = board.DefaultSprite;
-        
-        var playerController =
-                PrototypeAIUtil.FindPlayerControllerWithFov(
-                    controller.transform.position,
-                    controller.Agent.desiredVelocity,
-                    board.DetectFov, board.DetectDistance)
-            ;
-        
-        if (playerController)
+
+        if (param.InterupptWithFindingPlayer)
         {
-            board.State = Trace;
-            board.Param = new TraceParam()
-            {   
-                Target = playerController
-            };
+            var playerController =
+                    PrototypeAIUtil.FindPlayerControllerWithFov(
+                        controller.transform.position,
+                        controller.Agent.desiredVelocity,
+                        board.DetectFov, board.DetectDistance)
+                ;
+        
+            if (playerController)
+            {
+                board.State = Trace;
+                board.Param = new TraceParam()
+                {   
+                    Target = playerController
+                };
+            }
         }
 
         if (param.Timer >= param.Internval)

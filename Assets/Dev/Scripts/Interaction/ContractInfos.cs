@@ -1,6 +1,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -21,5 +22,5 @@ public interface IBObjectFieldItem : IObjectBehaviour
     public bool  IsResetNextFrame { get;  set;}
 }public interface IBObjectItemBox : IObjectBehaviour
 {
-    public UniTask<ItemBox> Open();
+    public UniTask<ItemBox> Open(CancellationTokenSource source);
 }

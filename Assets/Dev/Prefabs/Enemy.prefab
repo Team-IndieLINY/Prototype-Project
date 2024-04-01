@@ -284,17 +284,17 @@ MonoBehaviour:
     DEBUG: 0
     AttackSprite: {fileID: 21300000, guid: 012ddcee76c65ac4daf875b263215bf0, type: 3}
     DefaultSprite: {fileID: 21300000, guid: 02a7fcae291b8314a9fb9c75a35d9494, type: 3}
-    DetectFov: 130
-    DetectDistance: 10
+    DetectFov: 75
+    DetectDistance: 5
     Flip: 0
-    Patroll_MovemenetSpeed: 2
+    Patroll_MovemenetSpeed: 1.5
     PatrollPoints:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
-    Trace_MovementSpeed: 2
+    Trace_MovementSpeed: 2.5
     WaitSecAfterLastSighting: 1.5
     WaitSecAfterAttack: 1.5
   _agent: {fileID: 2949989548933384011}

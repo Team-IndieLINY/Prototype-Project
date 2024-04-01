@@ -54,7 +54,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _EnableExternalAlpha: 0
-    - _Power: 7
+    - _Power: 1
     - _radius: 10
     m_Colors:
     - _Color: {r: 1, g: 0.043050125, b: 0, a: 1}

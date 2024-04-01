@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using IndieLINY.Event;
 using UnityEngine;
@@ -38,6 +39,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private ItemBoxInventory _itemBoxInventory;
 
+
+    private CancellationTokenSource _itemboxCancelSource;
+    
     private void Awake()
     {
         Interaction = GetComponentInChildren<CollisionInteraction>();
@@ -88,6 +92,11 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             SceneManager.LoadScene("SampleScene");
+        }
+
+        if (Stemina.Properties.GetValue<int>(EStatCode.Health) <= 0)
+        {
+            SceneManager.LoadScene("Test");
         }
     }
 
@@ -169,7 +178,8 @@ public class PlayerController : MonoBehaviour
                 if (objInfo.TryGetBehaviour(out IBObjectItemBox itemBox))
                 {
                     IsStopped = true;
-                    itemBox.Open().ContinueWith(DoInteractItemBox);
+                    _itemboxCancelSource = new CancellationTokenSource();
+                    itemBox.Open(_itemboxCancelSource).ContinueWith(DoInteractItemBox);
                 }
             }
             else if (ttInteraction.TryGetContractInfo(out ActorContractInfo actorInfo) &&
@@ -187,14 +197,21 @@ public class PlayerController : MonoBehaviour
     /// <param name="itemList"></param>
     private void DoInteractItemBox(ItemBox itemBox)
     {
-        IsStopped = false;
+        if (itemBox == null)
+        {
+            IsStopped = false;
+            return;
+        }
 
+        IsStopped = false;
         _isOpen = true;
         Inventory.OpenInventory();
         
         _itemBoxInventory.CloseInventory();
 
         _itemBoxInventory.OpenInventory(itemBox);
+
+        
     }
 
     private void DoInteractFieldItem(IBObjectFieldItem item)
@@ -214,13 +231,19 @@ public class PlayerController : MonoBehaviour
     
     private void Move()
     {
-        if (IsStopped) return;
         
         var dir = new Vector2()
         {
             x = Input.GetAxisRaw("Horizontal"),
             y = Input.GetAxisRaw("Vertical")
         };
+
+        if (dir.sqrMagnitude > 0f)
+        {
+            _itemboxCancelSource?.Cancel();
+        }
+        
+        if (IsStopped) return;
 
         Vector2Int iDir = Vector2Int.zero;
 
