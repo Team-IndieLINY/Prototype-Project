@@ -35631,8 +35631,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Feed: F\nItem pick up: F\nUse item to self: E\nMove: WASD\n\n1,2,3 or
-    mouse wheel: \nselect inventory slot\n\nReset: Esc"
+  m_text: 'Interact: F
+
+    Inventory: Tab
+
+    Move: WASD
+
+    Sprint: left-shift
+
+
+    Reset:
+    Esc'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

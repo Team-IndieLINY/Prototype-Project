@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            SceneManager.LoadScene("SampleScene");
+            SceneManager.LoadScene("Test");
         }
 
         if (Stemina.Properties.GetValue<int>(EStatCode.Health) <= 0)
