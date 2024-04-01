@@ -89,7 +89,7 @@ public class PlayerController : MonoBehaviour
         WorldInteraction();
         SelfInteraction();
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Alpha0))
         {
             SceneManager.LoadScene("Test");
         }
@@ -103,6 +103,12 @@ public class PlayerController : MonoBehaviour
     private bool _isOpen = false;
     private void SelfInteraction()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            PlayerInventory.Instance.CloseInventory();
+            ItemBoxInventory.Instance.CloseInventory();
+            _isOpen = false;
+        }
         
         if (Input.GetKeyDown(KeyCode.Tab))
         {
@@ -152,6 +158,44 @@ public class PlayerController : MonoBehaviour
             }
         }
         if (collider == null) return;
+
+        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        var hits = Physics2D.RaycastAll(
+            ray.origin,
+            ray.direction,
+            Mathf.Infinity
+        );
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            var results = hits
+                    .Where(x =>
+                    {
+                        return x.transform.TryGetComponent<CollisionInteraction>(out var interaction) &&
+                               interaction.TryGetContractInfo(out ObjectContractInfo info) &&
+                               info.TryGetBehaviour(out IBObjectItemBox box);
+                    })
+                    .Select(x =>
+                    {
+                        if (x.transform.TryGetComponent<CollisionInteraction>(out var interaction) &&
+                            interaction.TryGetContractInfo(out ObjectContractInfo info) &&
+                            info.TryGetBehaviour(out IBObjectItemBox box))
+                        {
+                            return box;
+                        }
+                
+                        Debug.Assert(false);
+                        return null;
+                    })
+                    .ToList()
+                ;
+            if (results.Count > 0)
+            {
+                IsStopped = true;
+                _itemboxCancelSource = new CancellationTokenSource();
+                results[0].Open(_itemboxCancelSource).ContinueWith(DoInteractItemBox);
+            }
+        }
         
         
         if (collider.TryGetComponent<CollisionInteraction>(out var ttInteraction))
