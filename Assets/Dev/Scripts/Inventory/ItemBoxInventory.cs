@@ -21,6 +21,7 @@ public class ItemBoxInventory : MonoBehaviour
     private static Label _itemDetailBody;
     private bool _isInventoryReady;
     private bool _isInventoryLoading;
+    private ItemBox _targetItemBox;
 
     [FormerlySerializedAs("ItemBoxItems")]
     public List<StoredItem> _itemBoxItems = new List<StoredItem>();
@@ -44,8 +45,21 @@ public class ItemBoxInventory : MonoBehaviour
         }
     }
     
-    public async void OpenInventory(List<StoredItem> storedItems)
+    public async void OpenInventory(ItemBox itemBox)
     {
+        Debug.Assert(itemBox != null, "itemBox == null");
+        
+        _targetItemBox = itemBox;
+        
+        List<StoredItem> storedItems = new List<StoredItem>();
+
+        foreach (var item in itemBox.Items)
+        {
+            StoredItem storedItem = new StoredItem();
+            storedItem.Details = item;
+            storedItems.Add(storedItem);
+        }
+        
         await LoadInventory(storedItems);
         _inventoryContainer.style.visibility = Visibility.Visible;
 
@@ -63,6 +77,19 @@ public class ItemBoxInventory : MonoBehaviour
         }
         
         _inventoryContainer.style.visibility = Visibility.Hidden;
+
+        List<ItemDefinition> items = new List<ItemDefinition>();
+
+        foreach (var storedItem in _storedItems)
+        {
+            items.Add(storedItem.Details);
+        }
+
+        if (_targetItemBox != null)
+        {
+            _targetItemBox.SetItemBoxItems(items);
+            _targetItemBox = null;
+        }
         
         ResetInventory();
     }

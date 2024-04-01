@@ -21,5 +21,5 @@ public interface IBObjectFieldItem : IObjectBehaviour
     public bool  IsResetNextFrame { get;  set;}
 }public interface IBObjectItemBox : IObjectBehaviour
 {
-    public UniTask<List<ItemDefinition>> Open();
+    public UniTask<ItemBox> Open();
 }

@@ -27,15 +27,15 @@ public class ItemBox : MonoBehaviour, IBObjectItemBox, IBObjectHighlight
     /// Task가 완료되면 상자가 열린 것.
     /// UniTask는 메인스레드에서 돌아가므로 비동기 관련 문제는 걱정하지 말길 바람
     /// </summary>
-    public async UniTask<List<ItemDefinition>> Open()
+    public async UniTask<ItemBox> Open()
     {
-        if (IsOpened) return Items;
+        if (IsOpened) return this;
         
         await UniTask.Delay((int)(OpenDelaySec * 1000f));
         _renderer.sprite = _opend;
 
         IsOpened = true;
-        return Items;
+        return this;
     }
 
     public List<ItemDefinition> Items => _items;
@@ -92,6 +92,11 @@ public class ItemBox : MonoBehaviour, IBObjectItemBox, IBObjectHighlight
                 _outlineRenderer.enabled = value;
             }
         }
+    }
+
+    public void SetItemBoxItems(List<ItemDefinition> items)
+    {
+        _items = items;
     }
 
     private IEnumerator _co;

@@ -185,7 +185,7 @@ public class PlayerController : MonoBehaviour
     /// 플레이어가 상자를 열었을 때, 상자에 들어있는 아이템을 넘겨받음
     /// </summary>
     /// <param name="itemList"></param>
-    private void DoInteractItemBox(List<ItemDefinition> itemList)
+    private void DoInteractItemBox(ItemBox itemBox)
     {
         IsStopped = false;
 
@@ -194,15 +194,7 @@ public class PlayerController : MonoBehaviour
         
         _itemBoxInventory.CloseInventory();
 
-        List<StoredItem> storedItems = new List<StoredItem>();
-        foreach (var item in itemList)
-        {
-            StoredItem storedItem = new StoredItem();
-            storedItem.Details = item;
-            storedItems.Add(storedItem);
-        }
-
-        _itemBoxInventory.OpenInventory(storedItems);
+        _itemBoxInventory.OpenInventory(itemBox);
     }
 
     private void DoInteractFieldItem(IBObjectFieldItem item)
